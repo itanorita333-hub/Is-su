@@ -15,6 +15,7 @@ session/
 temp/
 tmp/
 baileys_store.json
+.bot-instance.lock
 *.log
 
 # IDE & Editor

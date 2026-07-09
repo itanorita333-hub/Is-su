@@ -1,5 +1,5 @@
 #!/bin/bash
-# Startup script for Knight Bot
+# Startup script for the WhatsApp bot
 # Works on Replit and Railway
 
 # Prevent multiple launcher instances from running at the same time.

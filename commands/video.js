@@ -304,9 +304,7 @@ async function videoCommand(sock, chatId, message) {
 
         const buildCaption = (title) => [
             `*${sanitizeTitle(title || videoTitle || 'Video')}*`,
-            videoDuration ? `⏱ ${videoDuration}` : '',
-            '',
-            '> *_Downloaded by Knight Bot MD_*'
+            videoDuration ? `⏱ ${videoDuration}` : ''
         ].filter(Boolean).join('\n');
         const buildFileName = (title) => `${sanitizeTitle(title || videoTitle || 'video').replace(/[^\w\s-]/g, '').trim() || 'video'}.mp4`;
 

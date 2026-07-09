@@ -3,7 +3,7 @@ const { sendConfiguredPromoMessage } = require('../lib/dashboardPromos')
 
 async function aliveCommand(sock, chatId, message) {
     try {
-        const botName = settings.botName || 'Knight Bot'
+        const botName = settings.botName || 'Bot'
         const modeLabel = settings.commandMode === 'private' ? 'Private' : 'Public'
         const fallbackMessage = `*🤖 ${botName} is Active!*\n\n` +
             `*Version:* ${settings.version}\n` +

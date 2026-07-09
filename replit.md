@@ -1,4 +1,4 @@
-# Knight Bot (Knightbot-MD)
+# Bot (Bot-MD)
 
 A multi-device WhatsApp automation bot built using the Baileys library. Designed for group management, entertainment, and utility automation on WhatsApp.
 

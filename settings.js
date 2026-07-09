@@ -18,7 +18,7 @@ const settings = {
   menuMediaUrl: '',
   menuButtons: '',
   version: "3.0.7",
-  updateZipUrl: "https://github.com/mruniquehacker/Knightbot-MD/archive/refs/heads/main.zip",
+  updateZipUrl: "https://github.com/your-repo-MD/archive/refs/heads/main.zip",
 };
 
 module.exports = settings;

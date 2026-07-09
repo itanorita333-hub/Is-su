@@ -61,15 +61,7 @@ async function blurCommand(sock, chatId, message, quotedMessage) {
         await sock.sendMessage(chatId, {
             image: blurredImage,
             caption: '*[ ✔ ] Image Blurred Successfully*',
-            contextInfo: {
-                forwardingScore: 1,
-                isForwarded: true,
-                forwardedNewsletterMessageInfo: {
-                    newsletterJid: '120363161513685998@newsletter',
-                    newsletterName: 'KnightBot MD',
-                    serverMessageId: -1
-                }
-            }
+            contextInfo: { forwardingScore: 0, isForwarded: false }
         });
 
     } catch (error) {

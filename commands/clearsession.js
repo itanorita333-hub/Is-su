@@ -4,15 +4,7 @@ const os = require('os');
 const isOwnerOrSudo = require('../lib/isOwner');
 
 const channelInfo = {
-    contextInfo: {
-        forwardingScore: 999,
-        isForwarded: true,
-        forwardedNewsletterMessageInfo: {
-            newsletterJid: '120363161513685998@newsletter',
-            newsletterName: 'KnightBot MD',
-            serverMessageId: -1
-        }
-    }
+    contextInfo: { forwardingScore: 0, isForwarded: false }
 };
 
 async function clearSessionCommand(sock, chatId, msg) {

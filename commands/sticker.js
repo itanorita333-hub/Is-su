@@ -16,8 +16,8 @@ function ensureTempDir() {
 function buildExif(packname, emojis) {
   const json = {
     'sticker-pack-id': crypto.randomBytes(16).toString('hex'),
-    'sticker-pack-name': packname || 'KnightBot',
-    'sticker-pack-publisher': packname || 'KnightBot',
+    'sticker-pack-name': packname || 'Bot',
+    'sticker-pack-publisher': packname || 'Bot',
     'emojis': emojis || ['🤖']
   };
 
@@ -144,7 +144,7 @@ async function encodeSticker(mediaBuffer, mimetype, isAnimated) {
 async function applyExif(webpBuffer) {
   const img = new webp.Image();
   await img.load(webpBuffer);
-  img.exif = buildExif(settings.packname || 'KnightBot', ['🤖']);
+  img.exif = buildExif(settings.packname || 'Bot', ['🤖']);
   return await img.save(null);
 }
 
@@ -156,15 +156,7 @@ async function stickerCommand(sock, chatId, message) {
   if (!mediaMessage) {
     await sock.sendMessage(chatId, {
       text: 'Please reply to an image/video/sticker with .sticker, or send an image/video with .sticker as the caption.',
-      contextInfo: {
-        forwardingScore: 999,
-        isForwarded: true,
-        forwardedNewsletterMessageInfo: {
-          newsletterJid: '120363161513685998@newsletter',
-          newsletterName: 'KnightBot MD',
-          serverMessageId: -1
-        }
-      }
+      contextInfo: { forwardingScore: 0, isForwarded: false }
     });
     return;
   }
@@ -178,15 +170,7 @@ async function stickerCommand(sock, chatId, message) {
     if (!mediaBuffer) {
       await sock.sendMessage(chatId, {
         text: 'Failed to download media. Please try again.',
-        contextInfo: {
-          forwardingScore: 999,
-          isForwarded: true,
-          forwardedNewsletterMessageInfo: {
-            newsletterJid: '120363161513685998@newsletter',
-            newsletterName: 'KnightBot MD',
-            serverMessageId: -1
-          }
-        }
+        contextInfo: { forwardingScore: 0, isForwarded: false }
       });
       return;
     }
@@ -208,15 +192,7 @@ async function stickerCommand(sock, chatId, message) {
     console.error('Error in sticker command:', error);
     await sock.sendMessage(chatId, {
       text: 'Failed to create sticker! Try again later.',
-      contextInfo: {
-        forwardingScore: 999,
-        isForwarded: true,
-        forwardedNewsletterMessageInfo: {
-          newsletterJid: '120363161513685998@newsletter',
-          newsletterName: 'KnightBot MD',
-          serverMessageId: -1
-        }
-      }
+      contextInfo: { forwardingScore: 0, isForwarded: false }
     });
   }
 }

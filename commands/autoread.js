@@ -1,5 +1,5 @@
 /**
- * Knight Bot - A WhatsApp Bot
+ * WhatsApp Bot
  * Autoread Command - Automatically read all messages
  */
 
@@ -27,15 +27,7 @@ async function autoreadCommand(sock, chatId, message) {
         if (!message.key.fromMe && !isOwner) {
             await sock.sendMessage(chatId, {
                 text: '❌ This command is only available for the owner!',
-                contextInfo: {
-                    forwardingScore: 1,
-                    isForwarded: true,
-                    forwardedNewsletterMessageInfo: {
-                        newsletterJid: '120363161513685998@newsletter',
-                        newsletterName: 'KnightBot MD',
-                        serverMessageId: -1
-                    }
-                }
+                contextInfo: { forwardingScore: 0, isForwarded: false }
             });
             return;
         }
@@ -58,15 +50,7 @@ async function autoreadCommand(sock, chatId, message) {
             } else {
                 await sock.sendMessage(chatId, {
                     text: '❌ Invalid option! Use: .autoread on/off',
-                    contextInfo: {
-                        forwardingScore: 1,
-                        isForwarded: true,
-                        forwardedNewsletterMessageInfo: {
-                            newsletterJid: '120363161513685998@newsletter',
-                            newsletterName: 'KnightBot MD',
-                            serverMessageId: -1
-                        }
-                    }
+                    contextInfo: { forwardingScore: 0, isForwarded: false }
                 });
                 return;
             }
@@ -81,30 +65,14 @@ async function autoreadCommand(sock, chatId, message) {
         // Send confirmation message
         await sock.sendMessage(chatId, {
             text: `✅ Auto-read has been ${config.enabled ? 'enabled' : 'disabled'}!`,
-            contextInfo: {
-                forwardingScore: 1,
-                isForwarded: true,
-                forwardedNewsletterMessageInfo: {
-                    newsletterJid: '120363161513685998@newsletter',
-                    newsletterName: 'KnightBot MD',
-                    serverMessageId: -1
-                }
-            }
+            contextInfo: { forwardingScore: 0, isForwarded: false }
         });
         
     } catch (error) {
         console.error('Error in autoread command:', error);
         await sock.sendMessage(chatId, {
             text: '❌ Error processing command!',
-            contextInfo: {
-                forwardingScore: 1,
-                isForwarded: true,
-                forwardedNewsletterMessageInfo: {
-                    newsletterJid: '120363161513685998@newsletter',
-                    newsletterName: 'KnightBot MD',
-                    serverMessageId: -1
-                }
-            }
+            contextInfo: { forwardingScore: 0, isForwarded: false }
         });
     }
 }
@@ -155,7 +123,7 @@ function isBotMentionedInMessage(message, botNumber) {
         }
         
         // Check for bot name mentions (optional, can be customized)
-        const botNames = [global.botname?.toLowerCase(), 'bot', 'knight', 'knight bot'];
+        const botNames = [global.botname?.toLowerCase(), 'bot'];
         const words = textContent.toLowerCase().split(/\s+/);
         if (botNames.some(name => words.includes(name))) {
             return true;

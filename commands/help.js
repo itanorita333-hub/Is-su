@@ -4,10 +4,9 @@ const { sendConfiguredPromoMessage } = require('../lib/dashboardPromos');
 async function helpCommand(sock, chatId, message) {
     const defaultHelpMessage = `
 ╔═══════════════════╗
-   *🤖 ${settings.botName || 'KnightBot-MD'}*  
+   *🤖 ${settings.botName || 'Bot'}*  
    Version: *${settings.version || '3.0.0'}*
-   by ${settings.botOwner || 'Mr Unique Hacker'}
-   YT : ${global.ytch}
+   by ${settings.botOwner || 'Owner'}
 ╚═══════════════════╝
 
 *Available Commands:*
@@ -115,7 +114,7 @@ async function helpCommand(sock, chatId, message) {
 ║ ➤ .ytmp4 <song name or YT link>
 ╚═══════════════════╝
 
-Join our channel for updates:`;
+`;
 
     try {
         await sendConfiguredPromoMessage(sock, chatId, settings, {
@@ -125,7 +124,7 @@ Join our channel for updates:`;
             fallbackText: defaultHelpMessage,
             fallbackImagePath: 'assets/bot_image.jpg',
             replacements: {
-                botName: settings.botName || 'KnightBot-MD',
+                botName: settings.botName || 'Bot',
                 version: settings.version || '3.0.0',
                 owner: settings.botOwner || 'Owner',
             },

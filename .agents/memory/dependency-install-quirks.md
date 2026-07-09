@@ -1,5 +1,5 @@
 ---
-name: Dependency install quirks (Knight Bot)
+name: Dependency install quirks (Bot)
 description: Non-obvious blockers when installing this project's npm deps on Replit and how to get the app running.
 ---
 
