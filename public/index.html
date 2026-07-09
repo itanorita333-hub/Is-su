@@ -1024,72 +1024,6 @@
 
     <div class="grid grid-2">
       <div class="card">
-        <div class="card-title">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 7h-9"/><path d="M14 17H5"/><circle cx="17" cy="17" r="3"/><circle cx="7" cy="7" r="3"/></svg>
-          Message Templates
-        </div>
-        <div class="form-group">
-          <label>Alive Message</label>
-          <textarea id="aliveMessage" class="settings-textarea" placeholder="What the bot should say when someone uses alive command..."></textarea>
-        </div>
-        <div class="form-group">
-          <label>Alive Media URL</label>
-          <input type="url" id="aliveMediaUrl" placeholder="https://example.com/banner.jpg" />
-        </div>
-        <div class="form-group">
-          <label>Alive Buttons</label>
-          <div id="aliveButtonsBuilder" class="cc-panel" style="padding:10px;display:flex;flex-direction:column;gap:8px;background:var(--surface2)"></div>
-          <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px">
-            <button type="button" class="btn btn-outline btn-sm" onclick="addPromoButtonRow('aliveButtonsBuilder')">+ Add Button</button>
-            <button type="button" class="btn btn-outline btn-sm" onclick="clearPromoButtonRows('aliveButtonsBuilder', 'aliveButtons')">Clear</button>
-          </div>
-          <textarea id="aliveButtons" class="settings-textarea" placeholder='[{"buttonId":"ping","buttonText":"Ping"}]' style="display:none"></textarea>
-        </div>
-        <div class="form-group">
-          <label>Menu Message</label>
-          <textarea id="menuMessage" class="settings-textarea" placeholder="Custom menu text shown to users..."></textarea>
-        </div>
-        <div class="form-group">
-          <label>Menu Media URL</label>
-          <input type="url" id="menuMediaUrl" placeholder="https://example.com/menu.jpg" />
-        </div>
-        <div class="form-group" style="margin-bottom:0">
-          <label>Menu Buttons</label>
-          <div id="menuButtonsBuilder" class="cc-panel" style="padding:10px;display:flex;flex-direction:column;gap:8px;background:var(--surface2)"></div>
-          <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px">
-            <button type="button" class="btn btn-outline btn-sm" onclick="addPromoButtonRow('menuButtonsBuilder')">+ Add Button</button>
-            <button type="button" class="btn btn-outline btn-sm" onclick="clearPromoButtonRows('menuButtonsBuilder', 'menuButtons')">Clear</button>
-          </div>
-          <textarea id="menuButtons" class="settings-textarea" placeholder='[{"buttonId":"menu","buttonText":"Open Menu"}]' style="display:none"></textarea>
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="card-title">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l3 7h7l-5.5 4.2L18.5 21 12 16.9 5.5 21 7.5 13.2 2 9h7z"/></svg>
-          Settings Notes
-        </div>
-        <div class="settings-note">
-          <b style="color:var(--text)">Quick guide:</b><br>
-          Update identity fields if you want the bot name and sticker credit to match your brand.<br>
-          Keep command mode on <b style="color:var(--text)">Public</b> if everyone should use the bot.
-        </div>
-        <div class="settings-note" style="margin-top:12px">
-          <b style="color:var(--text)">Message templates:</b><br>
-          Use <b style="color:var(--text)">+ Add Button</b> for Alive/Menu without writing JSON manually.<br>
-          Leave button builder empty if you do not need interactive buttons.
-        </div>
-        <div class="settings-note" style="margin-top:12px">
-          <b style="color:var(--text)">Suggested values:</b><br>
-          Bot Name: short and clear.<br>
-          Pack Name: sticker pack label.<br>
-          Timezone: match your location for schedules.
-        </div>
-      </div>
-    </div>
-
-    <div class="grid grid-2">
-      <div class="card">
         <div class="card-title" style="justify-content:space-between">
           <span>
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:16px;height:16px;vertical-align:middle;margin-right:6px"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
@@ -1264,7 +1198,10 @@
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:16px;height:16px;vertical-align:middle;margin-right:6px"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
           Command List
         </span>
-        <button class="btn btn-outline btn-sm" onclick="loadCommandList()">↻ Refresh</button>
+        <div style="display:flex;gap:6px">
+          <button class="btn btn-outline btn-sm" onclick="generateCommandListShareLink()">🔗 Share Link</button>
+          <button class="btn btn-outline btn-sm" onclick="loadCommandList()">↻ Refresh</button>
+        </div>
       </div>
       <div id="commandListContent"><p style="color:var(--text-dim);font-size:13px">Loading...</p></div>
     </div>
@@ -1276,6 +1213,22 @@
       <h1><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Custom Commands</h1>
       <p>Create, edit and manage your own bot commands with a cleaner shadcn-style layout.</p>
     </div>
+
+    <!-- Sub-tabs Navigation -->
+    <div class="cc-subtabs" style="display:flex;gap:8px;margin-bottom:20px;border-bottom:1px solid var(--border);padding-bottom:0">
+      <button class="cc-subtab-btn active" onclick="showCcSubtab('create')" style="padding:12px 20px;border:none;background:none;color:var(--text);cursor:pointer;font-size:14px;font-weight:600;border-bottom:2px solid var(--green);white-space:nowrap;transition:all .2s">
+        <span style="margin-right:6px">➕</span>Create Command
+      </button>
+      <button class="cc-subtab-btn" onclick="showCcSubtab('list')" style="padding:12px 20px;border:none;background:none;color:var(--text-dim);cursor:pointer;font-size:14px;font-weight:600;border-bottom:2px solid transparent;white-space:nowrap;transition:all .2s">
+        <span style="margin-right:6px">📋</span>List Custom Commands
+      </button>
+      <button class="cc-subtab-btn" onclick="showCcSubtab('templates')" style="padding:12px 20px;border:none;background:none;color:var(--text-dim);cursor:pointer;font-size:14px;font-weight:600;border-bottom:2px solid transparent;white-space:nowrap;transition:all .2s">
+        <span style="margin-right:6px">📝</span>Message Templates
+      </button>
+    </div>
+
+    <!-- Create Command Tab -->
+    <div id="cc-subtab-create" style="display:block">
     <!-- Add Command Form -->
     <div class="card cc-panel cc-panel-main" style="margin-bottom:14px">
         <div class="card-title cc-main-title">
@@ -1372,7 +1325,10 @@
         </div>
         <p class="cc-note">Command terus aktif, tak perlu restart.</p>
       </div>
+    </div>
 
+    <!-- List Commands Tab -->
+    <div id="cc-subtab-list" style="display:none">
     <!-- Commands List -->
     <div class="card cc-panel">
       <div class="card-title" style="justify-content:space-between">
@@ -1383,6 +1339,80 @@
         <button class="btn btn-outline btn-sm" onclick="loadCustomCommands()">↻ Refresh</button>
       </div>
       <div id="ccList"><p style="color:var(--text-dim);font-size:13px">Loading...</p></div>
+    </div>
+    </div>
+
+    <!-- Message Templates Tab -->
+    <div id="cc-subtab-templates" style="display:none">
+    <div class="grid grid-2">
+      <div class="card">
+        <div class="card-title">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 7h-9"/><path d="M14 17H5"/><circle cx="17" cy="17" r="3"/><circle cx="7" cy="7" r="3"/></svg>
+          Message Templates
+        </div>
+        <div class="form-group">
+          <label>Alive Message</label>
+          <textarea id="aliveMessage" class="settings-textarea" placeholder="What the bot should say when someone uses alive command..."></textarea>
+        </div>
+        <div class="form-group">
+          <label>Alive Media URL</label>
+          <input type="url" id="aliveMediaUrl" placeholder="https://example.com/banner.jpg" />
+        </div>
+        <div class="form-group">
+          <label>Alive Buttons</label>
+          <div id="aliveButtonsBuilder" class="cc-panel" style="padding:10px;display:flex;flex-direction:column;gap:8px;background:var(--surface2)"></div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px">
+            <button type="button" class="btn btn-outline btn-sm" onclick="addPromoButtonRow('aliveButtonsBuilder')">+ Add Button</button>
+            <button type="button" class="btn btn-outline btn-sm" onclick="clearPromoButtonRows('aliveButtonsBuilder', 'aliveButtons')">Clear</button>
+          </div>
+          <textarea id="aliveButtons" class="settings-textarea" placeholder='[{"buttonId":"ping","buttonText":"Ping"}]' style="display:none"></textarea>
+        </div>
+        <div class="form-group">
+          <label>Menu Message</label>
+          <textarea id="menuMessage" class="settings-textarea" placeholder="Custom menu text shown to users..."></textarea>
+        </div>
+        <div class="form-group">
+          <label>Menu Media URL</label>
+          <input type="url" id="menuMediaUrl" placeholder="https://example.com/menu.jpg" />
+        </div>
+        <div class="form-group" style="margin-bottom:0">
+          <label>Menu Buttons</label>
+          <div id="menuButtonsBuilder" class="cc-panel" style="padding:10px;display:flex;flex-direction:column;gap:8px;background:var(--surface2)"></div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px">
+            <button type="button" class="btn btn-outline btn-sm" onclick="addPromoButtonRow('menuButtonsBuilder')">+ Add Button</button>
+            <button type="button" class="btn btn-outline btn-sm" onclick="clearPromoButtonRows('menuButtonsBuilder', 'menuButtons')">Clear</button>
+          </div>
+          <textarea id="menuButtons" class="settings-textarea" placeholder='[{"buttonId":"menu","buttonText":"Open Menu"}]' style="display:none"></textarea>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l3 7h7l-5.5 4.2L18.5 21 12 16.9 5.5 21 7.5 13.2 2 9h7z"/></svg>
+          Templates Guide & Notes
+        </div>
+        <div class="settings-note">
+          <b style="color:var(--text)">Alive Message:</b><br>
+          Configure the response when someone uses the alive command to check bot status.<br>
+          Add buttons for quick actions like Ping or Menu.
+        </div>
+        <div class="settings-note" style="margin-top:12px">
+          <b style="color:var(--text)">Menu Message:</b><br>
+          Customize the menu displayed when users request help or navigation.<br>
+          Use buttons to guide users to different command categories.
+        </div>
+        <div class="settings-note" style="margin-top:12px">
+          <b style="color:var(--text)">Button Builder Tips:</b><br>
+          Use <b style="color:var(--text)">+ Add Button</b> to create interactive buttons easily.<br>
+          Leave empty if you do not need interactive buttons.
+        </div>
+        <div class="settings-note" style="margin-top:12px">
+          <b style="color:var(--text)">Media Attachments:</b><br>
+          Add banner images to make your messages more attractive.<br>
+          Supported: JPG, PNG, and other image formats.
+        </div>
+      </div>
+    </div>
     </div>
 
     <!-- Edit Modal -->
@@ -1580,7 +1610,9 @@ function showTab(name, btn) {
   if (btn) btn.classList.add('active')
 
   closeSidebar()
-  if (name === 'customcmds') loadCustomCommands()
+  if (name === 'customcmds') {
+    showCcSubtab('create') // Show create tab by default
+  }
   if (name === 'schedules') loadSchedules(true)
   if (name === 'groupsettings') {
     loadFeatures()
@@ -1595,12 +1627,79 @@ function showTab(name, btn) {
   }
   if (name === 'commandlist') {
     loadCommandList()
-    document.getElementById('sidebar').classList.add('hidden')
-    document.querySelector('.app').classList.add('no-sidebar')
+    // Check if viewing from share link (sidebar should be hidden)
+    const params = new URLSearchParams(window.location.search)
+    if (params.get('share') === 'true') {
+      document.getElementById('sidebar').classList.add('hidden')
+      document.querySelector('.app').classList.add('no-sidebar')
+      document.querySelector('.top-nav').style.display = 'none'
+    } else {
+      document.getElementById('sidebar').classList.add('hidden')
+      document.querySelector('.app').classList.add('no-sidebar')
+    }
   } else {
     document.getElementById('sidebar').classList.remove('hidden')
     document.querySelector('.app').classList.remove('no-sidebar')
+    document.querySelector('.top-nav').style.display = ''
   }
+}
+
+// ── Custom Commands Sub-tabs ────────────────────────────────────────────────
+function showCcSubtab(tabName) {
+  // Hide all cc subtabs
+  document.getElementById('cc-subtab-create').style.display = 'none'
+  document.getElementById('cc-subtab-list').style.display = 'none'
+  document.getElementById('cc-subtab-templates').style.display = 'none'
+  
+  // Remove active state from all buttons
+  document.querySelectorAll('.cc-subtab-btn').forEach(btn => {
+    btn.style.color = 'var(--text-dim)'
+    btn.style.borderBottomColor = 'transparent'
+  })
+  
+  // Show selected tab
+  if (tabName === 'create') {
+    document.getElementById('cc-subtab-create').style.display = 'block'
+    document.querySelectorAll('.cc-subtab-btn')[0].style.color = 'var(--text)'
+    document.querySelectorAll('.cc-subtab-btn')[0].style.borderBottomColor = 'var(--green)'
+  } else if (tabName === 'list') {
+    document.getElementById('cc-subtab-list').style.display = 'block'
+    document.querySelectorAll('.cc-subtab-btn')[1].style.color = 'var(--text)'
+    document.querySelectorAll('.cc-subtab-btn')[1].style.borderBottomColor = 'var(--green)'
+    loadCustomCommands()
+  } else if (tabName === 'templates') {
+    document.getElementById('cc-subtab-templates').style.display = 'block'
+    document.querySelectorAll('.cc-subtab-btn')[2].style.color = 'var(--text)'
+    document.querySelectorAll('.cc-subtab-btn')[2].style.borderBottomColor = 'var(--green)'
+    loadSettings()
+  }
+}
+
+// ── Generate Share Link for Command List ─────────────────────────────────────
+function generateCommandListShareLink() {
+  const baseUrl = window.location.origin + window.location.pathname
+  const shareUrl = baseUrl + '?share=true&tab=commandlist'
+  
+  // Copy to clipboard
+  navigator.clipboard.writeText(shareUrl).then(() => {
+    showToast('Share link copied to clipboard!', 'success')
+  }).catch(() => {
+    // Fallback: show modal with link
+    const modal = document.createElement('div')
+    modal.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:300;display:flex;align-items:center;justify-content:center'
+    modal.innerHTML = `
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:24px;max-width:480px;width:90%">
+        <div style="font-size:16px;font-weight:700;margin-bottom:12px">📤 Command List Share Link</div>
+        <p style="font-size:13px;color:var(--text-dim);margin-bottom:12px">Copy this link and share it to show the command list without sidebar:</p>
+        <div style="background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:12px;margin-bottom:12px;word-break:break-all;font-size:12px;color:var(--text)">${shareUrl}</div>
+        <div style="display:flex;gap:10px">
+          <button class="btn btn-outline" onclick="this.closest('div').parentElement.remove()" style="flex:1">Cancel</button>
+          <button class="btn btn-green" onclick="navigator.clipboard.writeText('${shareUrl}');this.closest('div').parentElement.remove();showToast('Link copied!','success')" style="flex:1">📋 Copy</button>
+        </div>
+      </div>
+    `
+    document.body.appendChild(modal)
+  })
 }
 
 // ── Command List ─────────────────────────────────────────────────────────────
@@ -3331,6 +3430,12 @@ document.addEventListener('DOMContentLoaded', initDropZones)
 document.addEventListener('DOMContentLoaded', () => {
   applyTheme(getStoredTheme())
   toggleMediaFields()
+  
+  // Check for share link parameter
+  const params = new URLSearchParams(window.location.search)
+  if (params.get('share') === 'true' && params.get('tab') === 'commandlist') {
+    showTab('commandlist')
+  }
 })
 
 async function addCustomCommand() {
