@@ -1,85 +1,78 @@
 const fs = require('fs');
 const path = require('path');
-const os = require('os');
 const isOwnerOrSudo = require('../lib/isOwner');
 
 const channelInfo = {
     contextInfo: { forwardingScore: 0, isForwarded: false }
 };
 
+function safeWriteJson(filePath, data) {
+    fs.writeFileSync(filePath, JSON.stringify(data, null, 2));
+}
+
 async function clearSessionCommand(sock, chatId, msg) {
     try {
         const senderId = msg.key.participant || msg.key.remoteJid;
         const isOwner = await isOwnerOrSudo(senderId, sock, chatId);
-        
+
         if (!msg.key.fromMe && !isOwner) {
-            await sock.sendMessage(chatId, { 
+            await sock.sendMessage(chatId, {
                 text: '❌ This command can only be used by the owner!',
                 ...channelInfo
             });
             return;
         }
 
-        // Define session directory
-        const sessionDir = path.join(__dirname, '../session');
+        const rootDir = path.resolve(__dirname, '..');
+        const sessionDir = path.join(rootDir, 'session');
+        const conflictPath = path.join(rootDir, 'data', 'conflictState.json');
+        const qrStatePath = path.join(rootDir, 'data', 'qrState.json');
 
-        if (!fs.existsSync(sessionDir)) {
-            await sock.sendMessage(chatId, { 
-                text: '❌ Session directory not found!',
-                ...channelInfo
-            });
-            return;
-        }
-
-        let filesCleared = 0;
-        let errors = 0;
-        let errorDetails = [];
-
-        // Send initial status
-        await sock.sendMessage(chatId, { 
-            text: `🔍 Optimizing session files for better performance...`,
+        await sock.sendMessage(chatId, {
+            text: '🧹 Clearing session state and preparing a fresh login. The bot will restart shortly.',
             ...channelInfo
         });
 
-        const files = fs.readdirSync(sessionDir);
-        
-        // Count files by type for optimization
-        let appStateSyncCount = 0;
-        let preKeyCount = 0;
+        const errors = [];
+        const actions = [];
 
-        for (const file of files) {
-            if (file.startsWith('app-state-sync-')) appStateSyncCount++;
-            if (file.startsWith('pre-key-')) preKeyCount++;
+        try {
+            fs.rmSync(sessionDir, { recursive: true, force: true });
+            fs.mkdirSync(sessionDir, { recursive: true });
+            actions.push('Session directory wiped and recreated');
+        } catch (error) {
+            errors.push(`Failed to reset session folder: ${error.message}`);
         }
 
-        // Delete files
-        for (const file of files) {
-            if (file === 'creds.json') {
-                // Skip creds.json file
-                continue;
-            }
-            try {
-                const filePath = path.join(sessionDir, file);
-                fs.unlinkSync(filePath);
-                filesCleared++;
-            } catch (error) {
-                errors++;
-                errorDetails.push(`Failed to delete ${file}: ${error.message}`);
+        try {
+            fs.rmSync(conflictPath, { force: true });
+            actions.push('Conflict state reset');
+        } catch (error) {
+            if (fs.existsSync(conflictPath)) {
+                errors.push(`Failed to reset conflict state: ${error.message}`);
             }
         }
 
-        // Send completion message
-        const message = `✅ Session files cleared successfully!\n\n` +
-                       `📊 Statistics:\n` +
-                       `• Total files cleared: ${filesCleared}\n` +
-                       `• App state sync files: ${appStateSyncCount}\n` +
-                       `• Pre-key files: ${preKeyCount}\n` +
-                       (errors > 0 ? `\n⚠️ Errors encountered: ${errors}\n${errorDetails.join('\n')}` : '');
+        try {
+            safeWriteJson(qrStatePath, { status: 'resetting', timestamp: Date.now() });
+            actions.push('QR state updated to resetting');
+        } catch (error) {
+            errors.push(`Failed to update QR state: ${error.message}`);
+        }
 
-        await sock.sendMessage(chatId, { 
-            text: message,
+        const summaryLines = [];
+        if (actions.length) summaryLines.push(`✅ ${actions.join('\n✅ ')}`);
+        if (errors.length) summaryLines.push(`⚠️ ${errors.join('\n⚠️ ')}`);
+
+        await sock.sendMessage(chatId, {
+            text: `*Clear Session Result:*
+${summaryLines.join('\n')}`,
             ...channelInfo
         });
+
+        if (errors.length === 0) {
+            setTimeout(() => process.exit(1), 750);
+        }
 
     } catch (error) {
         console.error('Error in clearsession command:', error);

@@ -21,15 +21,17 @@
   },
   {
     "trigger": ".m",
-    "response": "Hh",
+    "response": "Huhu",
     "description": "",
     "category": "General",
     "buttons": [
       {
         "index": 1,
         "name": "cta_url",
-        "buttonParamsJson": "{\"display_text\":\"H\",\"url\":\"https://wa.me/6\",\"merchant_url\":\"https://wa.me/6\",\"description\":\"H\"}"
+        "buttonParamsJson": "{\"display_text\":\"Test\",\"url\":\"https://github.com/itanorita333-hub/Is-su/blob/main/commands/emojimix.js\",\"merchant_url\":\"https://github.com/itanorita333-hub/Is-su/blob/main/commands/emojimix.js\"}"
       }
-    ]
+    ],
+    "mediaUrl": "/uploads/1783564056067-mrv6bebbgi.jpeg",
+    "mediaType": "image"
   }
 ]

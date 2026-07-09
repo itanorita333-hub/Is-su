@@ -929,6 +929,9 @@
       <button class="menu-btn" onclick="openSidebar()" title="Open menu" aria-label="Open sidebar menu">
         <svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 6h18v2H3V6zm0 5h18v2H3v-2zm0 5h18v2H3v-2z"/></svg>
       </button>
+      <button class="page-button" onclick="showTab('commandlist')" title="Open Command List" aria-label="Open command list page">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M5 4h14a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1zm2 3v2h10V7H7zm0 4v2h6v-2H7z"/></svg>
+      </button>
     </div>
     <div class="top-nav-right">
       <button id="themeToggleBtn" class="theme-toggle" onclick="toggleTheme()" title="Switch light/dark mode">🌙 Dark</button>
@@ -1592,6 +1595,11 @@ function showTab(name, btn) {
   }
   if (name === 'commandlist') {
     loadCommandList()
+    document.getElementById('sidebar').classList.add('hidden')
+    document.querySelector('.app').classList.add('no-sidebar')
+  } else {
+    document.getElementById('sidebar').classList.remove('hidden')
+    document.querySelector('.app').classList.remove('no-sidebar')
   }
 }
 
@@ -2051,6 +2059,8 @@ function escapeHtml(s) {
 
 // ── Sidebar drawer ────────────────────────────────────────────────────────────
 function openSidebar() {
+  document.getElementById('sidebar').classList.remove('hidden')
+  document.querySelector('.app').classList.remove('no-sidebar')
   document.getElementById('sidebar').classList.add('open')
   document.getElementById('sidebarOverlay').classList.add('active')
 }

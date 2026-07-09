@@ -3,7 +3,7 @@ const { sendInteractiveButtons } = require('../lib/interactiveButtons')
 async function singleSelectCommand(sock, chatId, message) {
     const rows = [
         { title: '📜 Menu', description: 'Show all bot commands', id: '.menu' },
-        { title: '🏓 Ping', description: 'Check bot response speed', id: '.ping' },
+        { title: '🌐 Website', description: 'Open project website', id: 'https://github.com/atex-ovi/wabase-button.git', url: 'https://github.com/atex-ovi/wabase-button.git' },
         { title: '✅ Alive', description: 'Check bot uptime/status', id: '.alive' }
     ]
 

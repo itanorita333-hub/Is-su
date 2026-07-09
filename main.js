@@ -127,7 +127,7 @@ const settingsCommand = require('./commands/settings');
 const setTimezoneCommand = require('./commands/settimezone');
 const scheduleCommand = require('./commands/schedule');
 const singleSelectCommand = require('./commands/singleselect');
-const { sendInteractiveButtons, extractInteractiveResponseId } = require('./lib/interactiveButtons');
+const { sendInteractiveButtons, extractInteractiveResponseId, extractInteractiveResponseMetadata } = require('./lib/interactiveButtons');
 
 // Global settings
 global.packname = settings.packname;
@@ -423,10 +423,19 @@ async function handleMessages(sock, messageUpdate, printLog) {
         const senderIsOwnerOrSudo = await isOwnerOrSudo(senderId, sock, chatId);
 
         // Handle button responses
-        const interactiveButtonId = extractInteractiveResponseId(message);
+        const interactiveResponse = extractInteractiveResponseMetadata(message);
+        const interactiveButtonId = interactiveResponse.id;
         if (interactiveButtonId) {
             const buttonId = interactiveButtonId;
             const chatId = message.key.remoteJid;
+
+            const targetUrl = interactiveResponse.url || (typeof buttonId === 'string' && /^(https?:\/\/)/i.test(buttonId) ? buttonId : '');
+            if (targetUrl) {
+                await sock.sendMessage(chatId, {
+                    text: `🔗 ${interactiveResponse.text || 'Open link'}\n${targetUrl}`
+                });
+                return;
+            }
 
             if (buttonId === 'channel') {
                 await sock.sendMessage(chatId, {
@@ -667,6 +676,10 @@ async function handleMessages(sock, messageUpdate, printLog) {
                 commandExecuted = true;
                 break;
             case userMessage === '.singleselect':
+                await singleSelectCommand(sock, chatId, message);
+                commandExecuted = true;
+                break;
+            case userMessage === '.contoh1':
                 await singleSelectCommand(sock, chatId, message);
                 commandExecuted = true;
                 break;
@@ -1178,14 +1191,7 @@ async function handleMessages(sock, messageUpdate, printLog) {
                                     const displayName = matched.fileName || (isLocal ? path.basename(matched.mediaUrl) : 'file');
                                     const hasButtons = Boolean(customButtons.nativeButtons);
                                     const payload = hasButtons ? {} : { caption };
-
-                                    // Send interactive buttons first so they are not visually buried by media on some clients.
-                                    if (hasButtons) {
-                                        await sendInteractiveButtons(sock, chatId, {
-                                            text: caption || 'Choose an option:',
-                                            nativeButtons: customButtons.nativeButtons
-                                        });
-                                    }
+                                    const buttonText = caption || 'Choose an option:';
 
                                     if (mt === 'image') {
                                         await sock.sendMessage(chatId, { image: mediaSrc, ...payload });
@@ -1195,6 +1201,13 @@ async function handleMessages(sock, messageUpdate, printLog) {
                                         await sock.sendMessage(chatId, { audio: mediaSrc, mimetype: 'audio/mpeg', ptt: false, ...payload });
                                     } else if (mt === 'document') {
                                         await sock.sendMessage(chatId, { document: mediaSrc, fileName: displayName, mimetype: 'application/octet-stream', ...payload });
+                                    }
+
+                                    if (hasButtons) {
+                                        await sendInteractiveButtons(sock, chatId, {
+                                            text: buttonText,
+                                            nativeButtons: customButtons.nativeButtons
+                                        });
                                     }
                                 }
                             } else if (caption) {

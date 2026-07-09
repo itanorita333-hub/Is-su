@@ -68,7 +68,7 @@ async function helpCommand(sock, chatId, message) {
 ╔═══════════════════╗
 🔒 *Owner Commands*:
 ║ ➤ .mode <public/private>
-║ ➤ .clearsession
+║ ➤ .clearsession (clears session and restarts)
 ║ ➤ .antidelete
 ║ ➤ .cleartmp
 ║ ➤ .update
@@ -121,8 +121,17 @@ async function helpCommand(sock, chatId, message) {
             textKey: 'menuMessage',
             mediaKey: 'menuMediaUrl',
             buttonsKey: 'menuButtons',
-            fallbackText: defaultHelpMessage,
+            fallbackText: 'See command list of this bot. Click the button below.',
             fallbackImagePath: 'assets/bot_image.jpg',
+            defaultButtons: [
+                {
+                    name: 'quick_reply',
+                    buttonParamsJson: JSON.stringify({
+                        display_text: 'Command List',
+                        id: '.list'
+                    })
+                }
+            ],
             replacements: {
                 botName: settings.botName || 'Bot',
                 version: settings.version || '3.0.0',
@@ -131,7 +140,7 @@ async function helpCommand(sock, chatId, message) {
         });
     } catch (error) {
         console.error('Error in help command:', error);
-        await sock.sendMessage(chatId, { text: defaultHelpMessage });
+        await sock.sendMessage(chatId, { text: 'See command list of this bot. Click the button below.' });
     }
 }
 
