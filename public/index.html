@@ -1,0 +1,3525 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Ilussion Bot Dashboard 🤖💚</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg: #09090b;
+    --surface: #18181b;
+    --surface2: #27272a;
+    --border: #27272a;
+    --green: #22c55e;
+    --green-dim: #16a34a;
+    --pink: #ff9ed8;
+    --lav: #b39dff;
+    --red: #ef4444;
+    --yellow: #eab308;
+    --blue: #3b82f6;
+    --text: #fafafa;
+    --text-dim: #a1a1aa;
+    --list-row-border: rgba(63, 63, 70, .48);
+    --list-card-border: rgba(63, 63, 70, .62);
+    --list-head-border: rgba(82, 82, 91, .55);
+    --list-header-bg: rgba(39, 39, 42, .72);
+    --list-card-shadow: 0 8px 24px rgba(0, 0, 0, .22);
+    --cc-shell-bg: linear-gradient(135deg, rgba(34,197,94,.22), rgba(59,130,246,.14));
+    --cc-panel-tint: rgba(255,255,255,.03);
+    --cc-panel-shadow: 0 10px 24px rgba(0,0,0,.18);
+    --cc-composer-border: var(--border);
+    --cc-composer-bg: var(--surface2);
+    --cc-help-border: rgba(255,255,255,.10);
+    --cc-help-bg: rgba(255,255,255,.03);
+    --cc-button-row-border: rgba(255,255,255,.08);
+    --cc-button-row-bg: rgba(0,0,0,.18);
+    --cc-type-btn-active-bg: rgba(34,197,94,.16);
+    --top-nav-bg: var(--sidebar-panel-bg);
+    --top-nav-border: var(--sidebar-panel-border);
+    --sidebar-panel-bg: linear-gradient(165deg, rgba(24, 24, 27, .96), rgba(9, 9, 11, .94));
+    --sidebar-panel-border: rgba(63, 63, 70, .92);
+    --sidebar-panel-shadow: 12px 0 32px rgba(0, 0, 0, .55);
+    --sidebar-label-line: rgba(82, 82, 91, .55);
+    --sidebar-nav-hover: rgba(39, 39, 42, .92);
+    --sidebar-nav-active: linear-gradient(90deg, rgba(34, 197, 94, .24), rgba(59, 130, 246, .18));
+    --sidebar-nav-active-border: rgba(34, 197, 94, .45);
+    --sidebar-status-bg: rgba(39, 39, 42, .86);
+    --radius: 8px;
+  }
+  body[data-theme='light'] {
+    --bg: #f6f8fb;
+    --surface: #ffffff;
+    --surface2: #eef2f7;
+    --border: #d8e0eb;
+    --green: #16a34a;
+    --green-dim: #15803d;
+    --pink: #db2777;
+    --lav: #6366f1;
+    --red: #dc2626;
+    --yellow: #ca8a04;
+    --blue: #2563eb;
+    --text: #0f172a;
+    --text-dim: #475569;
+    --list-row-border: rgba(148, 163, 184, .55);
+    --list-card-border: rgba(148, 163, 184, .62);
+    --list-head-border: rgba(148, 163, 184, .52);
+    --list-header-bg: rgba(241, 245, 249, .95);
+    --list-card-shadow: 0 6px 20px rgba(15, 23, 42, .08);
+    --cc-shell-bg: linear-gradient(135deg, rgba(22,163,74,.18), rgba(37,99,235,.12));
+    --cc-panel-tint: rgba(255,255,255,.60);
+    --cc-panel-shadow: 0 8px 20px rgba(15,23,42,.09);
+    --cc-composer-border: var(--border);
+    --cc-composer-bg: var(--surface2);
+    --cc-help-border: rgba(15,23,42,.10);
+    --cc-help-bg: rgba(148,163,184,.14);
+    --cc-button-row-border: rgba(15,23,42,.14);
+    --cc-button-row-bg: rgba(148,163,184,.12);
+    --cc-type-btn-active-bg: rgba(22,163,74,.16);
+    --top-nav-bg: var(--sidebar-panel-bg);
+    --top-nav-border: var(--sidebar-panel-border);
+    --sidebar-panel-bg: linear-gradient(165deg, rgba(255, 255, 255, .98), rgba(240, 244, 249, .95));
+    --sidebar-panel-border: rgba(203, 213, 225, .95);
+    --sidebar-panel-shadow: 10px 0 26px rgba(15, 23, 42, .10);
+    --sidebar-label-line: rgba(148, 163, 184, .65);
+    --sidebar-nav-hover: rgba(241, 245, 249, .95);
+    --sidebar-nav-active: linear-gradient(90deg, rgba(22, 163, 74, .20), rgba(37, 99, 235, .12));
+    --sidebar-nav-active-border: rgba(22, 163, 74, .42);
+    --sidebar-status-bg: rgba(241, 245, 249, .92);
+  }
+  body { background: var(--bg); color: var(--text); font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; min-height: 100vh; font-size: 14px; -webkit-font-smoothing: antialiased; }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.5} }
+
+  /* App shell + sidebar */
+  .app { display: flex; min-height: 100dvh; }
+  .sidebar {
+    width: 252px;
+    flex-shrink: 0;
+    background: var(--sidebar-panel-bg);
+    border-right: 1px solid var(--sidebar-panel-border);
+    padding: 14px 12px calc(14px + env(safe-area-inset-bottom));
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    position: fixed;
+    left: 0;
+    top: 0;
+    height: 100dvh;
+    max-height: 100dvh;
+    z-index: 320;
+    transform: translateX(-264px);
+    transition: transform .25s ease;
+    overflow-x: hidden;
+    overflow-y: auto;
+    box-shadow: inset -1px 0 0 rgba(255,255,255,.03);
+  }
+  .sidebar::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--green), var(--blue), var(--lav));
+    opacity: .82;
+  }
+  .sidebar.open { transform: translateX(0); box-shadow: var(--sidebar-panel-shadow); }
+  .sidebar::-webkit-scrollbar { width: 7px; }
+  .sidebar::-webkit-scrollbar-thumb { background: color-mix(in srgb, var(--green) 35%, transparent); border-radius: 99px; }
+  .side-label {
+    position: relative;
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--text-dim);
+    padding: 8px 10px 6px;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+  .side-label::after {
+    content: '';
+    position: absolute;
+    right: 10px;
+    left: 94px;
+    top: 50%;
+    height: 1px;
+    background: var(--sidebar-label-line);
+    transform: translateY(-50%);
+  }
+  .side-label.top { padding-top: 4px; }
+  .side-nav { display: flex; flex-direction: column; gap: 6px; flex: 1; }
+  .nav-item {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 9px 11px;
+    border-radius: 10px;
+    border: 1px solid transparent;
+    background: transparent;
+    color: var(--text-dim);
+    cursor: pointer;
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    text-align: left;
+    width: 100%;
+    transition: background .18s, color .18s, border-color .18s, transform .18s;
+    white-space: nowrap;
+  }
+  .nav-item:hover {
+    background: var(--sidebar-nav-hover);
+    color: var(--text);
+    border-color: color-mix(in srgb, var(--green) 26%, transparent);
+    transform: translateX(2px);
+  }
+  .nav-item.active {
+    background: var(--sidebar-nav-active);
+    color: var(--text);
+    border-color: var(--sidebar-nav-active-border);
+    box-shadow: inset 0 0 0 1px rgba(255,255,255,.04);
+  }
+  .nav-item.active::before {
+    content: '';
+    position: absolute;
+    left: -4px;
+    top: 10px;
+    bottom: 10px;
+    width: 3px;
+    border-radius: 99px;
+    background: linear-gradient(180deg, var(--green), var(--blue));
+  }
+  .nav-emoji {
+    font-size: 14px;
+    width: 22px;
+    height: 22px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 7px;
+    background: color-mix(in srgb, var(--surface2) 80%, transparent);
+    flex-shrink: 0;
+  }
+  .side-status {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-dim);
+    padding: 10px;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    background: var(--sidebar-status-bg);
+    margin-top: 4px;
+  }
+  .side-status-text { text-align: center; width: 100%; }
+  .main { flex: 1; min-width: 0; width: 100%; overflow: visible; }
+  .top-nav {
+    position: -webkit-sticky;
+    position: sticky;
+    top: 0;
+    z-index: 220;
+    border-bottom: 1px solid var(--top-nav-border);
+    background: var(--top-nav-bg);
+    box-shadow: inset 0 -1px 0 color-mix(in srgb, var(--border) 65%, transparent);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+  }
+  .top-nav-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 12px 22px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+  }
+  .top-nav-left,
+  .top-nav-right {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .top-nav-right {
+    margin-left: auto;
+  }
+  .top-nav-link {
+    border: 1px solid var(--border);
+    background: var(--surface);
+    color: var(--text-dim);
+    border-radius: 999px;
+    padding: 8px 12px;
+    font-size: 13px;
+    font-weight: 600;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: .15s ease;
+  }
+  .top-nav-link:hover {
+    color: var(--text);
+    border-color: var(--green);
+  }
+  .top-nav-link.active {
+    color: var(--text);
+    border-color: var(--green);
+    background: color-mix(in srgb, var(--green) 17%, var(--surface));
+  }
+  .menu-btn { width: 38px; height: 38px; border-radius: 10px; background: var(--surface); border: 1px solid var(--border); display: inline-flex; align-items: center; justify-content: center; cursor: pointer; transition: background .15s, border-color .15s; }
+  .menu-btn:hover { background: var(--surface2); border-color: var(--green); }
+  .menu-btn svg { width: 20px; height: 20px; color: var(--green); }
+
+  /* Layout */
+  .container { max-width: 1100px; margin: 0 auto; padding: 28px 22px 44px; }
+  .grid { display: grid; gap: 16px; }
+  .grid-2 { grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
+  .grid-4 { grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); }
+
+  /* Cards */
+  .card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; }
+  .card-title { font-family: 'Inter', sans-serif; font-size: 14px; font-weight: 600; color: var(--text); margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
+  .card-title svg { width: 16px; height: 16px; }
+
+  /* Stat cards */
+  .stat-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; display: flex; flex-direction: column; gap: 6px; }
+  .stat-label { font-size: 12px; color: var(--text-dim); }
+  .stat-value { font-family: 'Inter', sans-serif; font-size: 28px; font-weight: 600; letter-spacing: -.02em; color: var(--text); }
+  .stat-icon { font-size: 22px; margin-bottom: 4px; }
+
+  /* Status card */
+  .status-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 24px; display: flex; align-items: center; gap: 20px; }
+  .status-avatar { width: 64px; height: 64px; border-radius: 50%; background: var(--green-dim); display: flex; align-items: center; justify-content: center; font-size: 28px; flex-shrink: 0; position: relative; overflow: hidden; }
+  .status-avatar img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; }
+  .status-badge { position: absolute; bottom: 2px; right: 2px; width: 16px; height: 16px; border-radius: 50%; background: var(--red); border: 2px solid var(--surface); }
+  .status-badge.online { background: var(--green); }
+  .status-info { flex: 1; }
+  .status-name { font-family: 'Inter', sans-serif; font-size: 20px; font-weight: 600; letter-spacing: -.01em; }
+  .status-number { font-size: 13px; color: var(--text-dim); margin-top: 2px; }
+  .status-meta { display: flex; gap: 12px; margin-top: 10px; flex-wrap: wrap; }
+  .status-meta-item { font-size: 12px; font-weight: 600; color: var(--text-dim); }
+  .status-meta-item.online { color: var(--green); }
+  .status-meta-item.offline { color: var(--red); }
+  .badge { padding: 3px 10px; border-radius: 20px; font-size: 12px; font-weight: 600; }
+  .badge-green { background: rgba(34,197,94,.15); color: var(--green); }
+  .badge-blue { background: rgba(59,130,246,.15); color: var(--blue); }
+  .badge-yellow { background: rgba(234,179,8,.15); color: var(--yellow); }
+  .badge-red { background: rgba(239,68,68,.15); color: var(--red); }
+  .uptime { font-size: 12px; color: var(--text-dim); margin-top: 8px; }
+  .sidebar-status-wrap { margin: 0 0 8px; }
+  .sidebar .status-card {
+    margin-bottom: 0;
+    padding: 13px;
+    gap: 12px;
+    align-items: center;
+    flex-direction: column;
+    text-align: center;
+    border-radius: 12px;
+    border-color: color-mix(in srgb, var(--green) 20%, var(--border));
+    background: color-mix(in srgb, var(--surface) 82%, transparent);
+  }
+  .sidebar .status-avatar {
+    width: 44px;
+    height: 44px;
+    font-size: 20px;
+  }
+  .sidebar .status-info {
+    width: 100%;
+    text-align: center;
+  }
+  .sidebar .status-badge {
+    width: 13px;
+    height: 13px;
+    right: 1px;
+    bottom: 1px;
+  }
+  .sidebar .status-name {
+    font-size: 14px;
+    line-height: 1.25;
+  }
+  .sidebar .status-number {
+    font-size: 12px;
+    margin-top: 3px;
+    word-break: break-all;
+    opacity: .9;
+  }
+  .sidebar .status-meta {
+    gap: 6px;
+    margin-top: 8px;
+    justify-content: center;
+  }
+  .sidebar .status-meta-item {
+    font-size: 11px;
+  }
+  .sidebar .uptime {
+    margin-top: 6px;
+    font-size: 11px;
+  }
+
+  /* Settings form */
+  .form-group { margin-bottom: 16px; }
+  label { display: block; font-size: 13px; color: var(--text); margin-bottom: 7px; font-weight: 500; }
+  input, select, textarea {
+    width: 100%; background: transparent; border: 1px solid var(--border);
+    border-radius: 8px; padding: 9px 12px; color: var(--text); font-size: 14px;
+    outline: none; font-family: 'Inter', sans-serif; transition: border-color .15s, box-shadow .15s;
+  }
+  input:focus, select:focus, textarea:focus { border-color: var(--text-dim); box-shadow: 0 0 0 3px rgba(255,255,255,.06); }
+  select option { background: var(--surface2); }
+
+  /* Buttons */
+  .btn { padding: 9px 18px; border-radius: 8px; border: none; cursor: pointer; font-family: 'Inter', sans-serif; font-size: 14px; font-weight: 500; transition: all .15s; }
+  .btn-green { background: var(--green); color: #000; }
+  .btn-green:hover { background: var(--green-dim); }
+  .btn-outline { background: transparent; color: var(--text); border: 1px solid var(--border); }
+  .btn-outline:hover { border-color: var(--green); color: var(--green); }
+  .btn-sm { padding: 5px 14px; font-size: 12px; }
+  .settings-hint { font-size: 12px; color: var(--text-dim); line-height: 1.6; }
+  .settings-note { margin-top: 8px; padding: 10px 12px; border-radius: 8px; border: 1px solid var(--border); background: color-mix(in srgb, var(--surface2) 82%, transparent); font-size: 12px; color: var(--text-dim); line-height: 1.6; }
+  .settings-toggle { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 12px; border: 1px solid var(--border); border-radius: 10px; background: color-mix(in srgb, var(--surface2) 72%, transparent); }
+  .settings-toggle strong { display: block; font-size: 13px; color: var(--text); margin-bottom: 3px; }
+  .settings-toggle span { display: block; font-size: 12px; color: var(--text-dim); line-height: 1.5; }
+  .settings-toggle input { width: auto; min-width: 18px; height: 18px; accent-color: var(--green); }
+  .settings-textarea { min-height: 92px; resize: vertical; }
+
+  /* Logs */
+  .log-container { background: var(--bg); border: 1px solid var(--border); border-radius: 8px; padding: 12px; height: 320px; overflow-y: auto; font-family: 'Courier New', monospace; font-size: 12px; }
+  .log-entry { padding: 3px 0; border-bottom: 1px solid var(--border); line-height: 1.5; }
+  .log-entry:last-child { border-bottom: none; }
+  .log-time { color: var(--text-dim); margin-right: 8px; }
+  .log-info .log-msg { color: var(--text); }
+  .log-error .log-msg { color: var(--red); }
+  .log-empty { color: var(--text-dim); font-style: italic; padding: 8px 0; }
+
+  /* Toggle switch */
+  .toggle-row { display: flex; align-items: center; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid var(--border); }
+  .toggle-row:last-child { border-bottom: none; }
+  .toggle-info { font-size: 14px; }
+  .toggle-info small { display: block; font-size: 12px; color: var(--text-dim); margin-top: 2px; }
+  .toggle { position: relative; width: 42px; height: 22px; }
+  .toggle input { opacity: 0; width: 0; height: 0; }
+  .slider { position: absolute; inset: 0; background: var(--surface2); border-radius: 22px; cursor: pointer; border: 1px solid var(--border); transition: .2s; }
+  .slider::before { content: ''; position: absolute; width: 16px; height: 16px; background: var(--text-dim); border-radius: 50%; top: 2px; left: 2px; transition: .2s; }
+  input:checked + .slider { background: var(--green-dim); border-color: var(--green); }
+  input:checked + .slider::before { transform: translateX(20px); background: #fff; }
+
+  /* Toast */
+  .toast { position: fixed; bottom: 24px; right: 24px; background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 14px 18px; font-size: 14px; z-index: 999; transform: translateY(100px); opacity: 0; transition: all .3s; max-width: 320px; }
+  .toast.show { transform: translateY(0); opacity: 1; }
+  .toast.success { border-color: var(--green); }
+  .toast.error { border-color: var(--red); }
+
+  /* Custom command polish */
+  .cc-grid {
+    grid-template-columns: minmax(0, 1.7fr) minmax(260px, .85fr);
+    gap: 18px;
+    align-items: start;
+  }
+  .cc-shell {
+    padding: 2px;
+    border-radius: 14px;
+    background: var(--cc-shell-bg);
+    margin-bottom: 16px;
+  }
+  .cc-panel {
+    background:
+      linear-gradient(180deg, var(--cc-panel-tint), transparent 30%),
+      var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    box-shadow: var(--cc-panel-shadow);
+  }
+  .cc-panel-main {
+    padding: 18px;
+  }
+  .cc-panel-aside {
+    position: sticky;
+    top: 18px;
+    padding: 16px;
+  }
+  .cc-composer {
+    border: 1px dashed var(--cc-composer-border);
+    border-radius: 12px;
+    padding: 14px;
+    background: var(--cc-composer-bg);
+    margin-bottom: 16px;
+  }
+  .cc-composer-title {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    letter-spacing: .08em;
+    margin-bottom: 12px;
+  }
+  .cc-fieldset {
+    border: 1px solid color-mix(in srgb, var(--green) 22%, var(--border));
+    border-radius: 12px;
+    padding: 12px;
+    background: color-mix(in srgb, var(--surface) 82%, transparent);
+    margin-bottom: 12px;
+  }
+  .cc-field-legend {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text);
+    padding: 0 6px;
+    letter-spacing: .02em;
+  }
+  .cc-field-description {
+    font-size: 12px;
+    color: var(--text-dim);
+    line-height: 1.55;
+    margin: 4px 2px 10px;
+  }
+  .cc-field-group {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .cc-field-grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+  .cc-field {
+    margin-bottom: 0;
+  }
+  .cc-field-label {
+    display: block;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 6px;
+    letter-spacing: .01em;
+  }
+  .cc-inline-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+  .cc-type-icons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 10px;
+  }
+  .cc-type-btn {
+    border: 1px solid var(--border);
+    background: var(--surface);
+    color: var(--text-dim);
+    border-radius: 8px;
+    padding: 7px 10px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  .cc-type-btn.active {
+    border-color: var(--green);
+    background: var(--cc-type-btn-active-bg);
+    color: var(--text);
+  }
+  .cc-main-title {
+    margin-bottom: 10px;
+  }
+  .cc-note {
+    margin-top: 8px;
+    font-size: 12px;
+    color: var(--text-dim);
+    text-align: center;
+  }
+  .cc-aside {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .cc-aside .btn {
+    width: 100%;
+  }
+  .cc-help {
+    border: 1px solid var(--cc-help-border);
+    border-radius: 10px;
+    padding: 12px;
+    background: var(--cc-help-bg);
+    font-size: 12px;
+    color: var(--text-dim);
+    line-height: 1.6;
+  }
+  .cc-button-row {
+    border: 1px solid var(--cc-button-row-border);
+    border-radius: 10px;
+    padding: 10px;
+    background: var(--cc-button-row-bg);
+  }
+  .cc-button-extra { margin-top: 8px; }
+  .cc-button-hint { font-size: 11px; color: var(--text-dim); margin-top: 5px; }
+  .cc-select-builder { margin-top: 10px; padding: 10px; border: 1px dashed rgba(255,255,255,.14); border-radius: 8px; background: rgba(255,255,255,.03); }
+  body[data-theme='light'] .cc-select-builder { border: 1px dashed rgba(15,23,42,.18); background: rgba(148,163,184,.08); }
+  .cc-select-row { display: grid; grid-template-columns: 1fr 1.5fr 1.5fr auto; gap: 6px; align-items: end; margin-bottom: 6px; }
+  .cc-select-row input { font-size: 12px; padding: 6px 8px; }
+  .theme-toggle {
+    border: 1px solid var(--border);
+    background: var(--surface2);
+    color: var(--text);
+    border-radius: 999px;
+    padding: 6px 12px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  .theme-toggle:hover { border-color: var(--green); color: var(--green); }
+  .action-select-delete {
+    color: var(--red);
+    font-weight: 600;
+  }
+  .cc-button-extra textarea {
+    min-height: 86px;
+    resize: vertical;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    font-size: 12px;
+  }
+  .cc-badge-type {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 2px 8px;
+    border-radius: 999px;
+    border: 1px solid rgba(34,197,94,.35);
+    background: rgba(34,197,94,.12);
+    color: #8bf4b4;
+    font-size: 11px;
+    margin-left: 6px;
+  }
+
+  /* Custom Commands tab redesign (shadcn-inspired) */
+  #tab-customcmds .cc-layout {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  #tab-customcmds .cc-shell {
+    padding: 0;
+    border-radius: 12px;
+    background: transparent;
+    border: 0;
+  }
+  #tab-customcmds .cc-panel {
+    position: relative;
+    background: var(--surface);
+    border: 1px solid color-mix(in srgb, var(--border) 90%, transparent);
+    border-radius: 12px;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, .12), 0 8px 28px rgba(0, 0, 0, .08);
+    overflow: hidden;
+  }
+  #tab-customcmds .cc-panel::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    height: 1px;
+    background: linear-gradient(90deg, color-mix(in srgb, var(--green) 55%, transparent), color-mix(in srgb, var(--blue) 45%, transparent));
+    opacity: .45;
+    pointer-events: none;
+  }
+  #tab-customcmds .cc-panel-main {
+    padding: 24px;
+  }
+  #tab-customcmds .cc-panel-aside {
+    top: 14px;
+  }
+  #tab-customcmds .cc-main-title {
+    margin-bottom: 16px;
+    font-size: 15px;
+    font-weight: 700;
+  }
+  #tab-customcmds .cc-composer {
+    border: 1px solid color-mix(in srgb, var(--border) 85%, transparent);
+    border-radius: 10px;
+    padding: 16px;
+    background: color-mix(in srgb, var(--surface2) 76%, transparent);
+    margin-bottom: 20px;
+  }
+  #tab-customcmds .cc-field-group {
+    gap: 14px;
+  }
+  #tab-customcmds .cc-field-grid-2 {
+    gap: 14px;
+  }
+  #tab-customcmds .cc-fieldset {
+    border-color: color-mix(in srgb, var(--border) 85%, transparent);
+    background: color-mix(in srgb, var(--surface) 82%, transparent);
+    border-radius: 10px;
+  }
+  #tab-customcmds .cc-field-legend {
+    font-size: 12px;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+  }
+  #tab-customcmds .cc-field-description {
+    font-size: 12px;
+    margin-bottom: 12px;
+  }
+  #tab-customcmds .form-group {
+    margin-bottom: 14px;
+  }
+  #tab-customcmds label {
+    margin-bottom: 8px;
+  }
+  #tab-customcmds #ccComposeFields {
+    display: flex !important;
+    flex-direction: column;
+    gap: 16px;
+  }
+  #tab-customcmds #ccMediaSection {
+    margin: 2px 0 0 !important;
+    padding-top: 16px !important;
+  }
+  #tab-customcmds #ccButtonsWrap {
+    margin-bottom: 0 !important;
+  }
+  #tab-customcmds #ccButtonsContainer {
+    gap: 10px !important;
+  }
+  #tab-customcmds .cc-button-row {
+    padding: 12px;
+  }
+  #tab-customcmds .cc-type-btn {
+    border-radius: 8px;
+    padding: 7px 11px;
+    border: 1px solid color-mix(in srgb, var(--border) 88%, transparent);
+    background: var(--surface);
+  }
+  #tab-customcmds .cc-type-btn.active {
+    border-color: color-mix(in srgb, var(--green) 42%, var(--border));
+    background: color-mix(in srgb, var(--green) 12%, var(--surface));
+  }
+  #tab-customcmds .cc-help {
+    border-radius: 10px;
+    border: 1px solid color-mix(in srgb, var(--border) 85%, transparent);
+    background: color-mix(in srgb, var(--surface2) 74%, transparent);
+  }
+  #tab-customcmds .cc-note {
+    margin-top: 12px;
+    font-size: 12px;
+    color: var(--text-dim);
+    text-align: left;
+  }
+  #tab-customcmds .cc-panel + .cc-panel {
+    margin-top: 14px;
+  }
+  #tab-customcmds .btn {
+    border-radius: 8px;
+  }
+  #tab-customcmds .btn-green {
+    background: var(--green);
+    color: #062714;
+    font-weight: 700;
+  }
+  #tab-customcmds .btn-green:hover {
+    filter: brightness(.95);
+  }
+  #tab-customcmds .cc-list-card {
+    border: 1px solid color-mix(in srgb, var(--border) 90%, transparent);
+    border-radius: 12px;
+    overflow: hidden;
+    margin-bottom: 12px;
+    background: var(--surface);
+  }
+  #tab-customcmds .cc-list-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 14px;
+    border-bottom: 1px solid color-mix(in srgb, var(--border) 85%, transparent);
+    background: color-mix(in srgb, var(--surface2) 72%, transparent);
+  }
+  #tab-customcmds .cc-list-head-title {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text);
+  }
+  #tab-customcmds .cc-list-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+  }
+  #tab-customcmds .cc-list-table th {
+    text-align: left;
+    padding: 10px 12px;
+    color: var(--text-dim);
+    font-weight: 600;
+    border-bottom: 1px solid color-mix(in srgb, var(--border) 75%, transparent);
+    background: color-mix(in srgb, var(--surface2) 52%, transparent);
+  }
+  #tab-customcmds .cc-list-table td {
+    padding: 12px;
+    border-bottom: 1px solid color-mix(in srgb, var(--border) 64%, transparent);
+  }
+  #tab-customcmds .cc-list-table tbody tr:last-child td {
+    border-bottom: 0;
+  }
+  #tab-customcmds .cc-trigger-chip {
+    display: inline-flex;
+    align-items: center;
+    background: color-mix(in srgb, var(--surface2) 80%, transparent);
+    border: 1px solid color-mix(in srgb, var(--border) 80%, transparent);
+    padding: 2px 8px;
+    border-radius: 999px;
+    color: var(--green);
+    font-size: 12px;
+  }
+  #tab-customcmds .cc-action-select {
+    min-width: 136px;
+    height: 34px;
+    padding: 4px 8px;
+    border-radius: 8px;
+    border: 1px solid color-mix(in srgb, var(--border) 85%, transparent);
+    background: var(--surface);
+    color: var(--text);
+  }
+  #tab-customcmds .cc-create-footer {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    margin-top: 12px;
+    padding-top: 10px;
+    border-top: 1px dashed color-mix(in srgb, var(--border) 78%, transparent);
+  }
+  #tab-customcmds .cc-stats-pill {
+    font-size: 12px;
+    color: var(--text-dim);
+    padding: 6px 10px;
+    background: color-mix(in srgb, var(--surface2) 86%, transparent);
+    border: 1px solid color-mix(in srgb, var(--border) 80%, transparent);
+    border-radius: 999px;
+  }
+
+  body[data-theme='light'] #tab-customcmds .cc-panel {
+    box-shadow: 0 1px 2px rgba(15, 23, 42, .06), 0 10px 24px rgba(15, 23, 42, .06);
+  }
+  body[data-theme='light'] #tab-customcmds .btn-green {
+    color: #03200f;
+  }
+
+  @media (max-width: 980px) {
+    .cc-shell {
+      margin-bottom: 12px;
+    }
+    .cc-grid {
+      grid-template-columns: 1fr;
+    }
+    .cc-panel-aside {
+      position: static;
+      top: auto;
+    }
+    .cc-inline-2 {
+      grid-template-columns: 1fr;
+    }
+    .cc-field-grid-2 {
+      grid-template-columns: 1fr;
+    }
+    #tab-customcmds .cc-panel-main {
+      padding: 18px;
+    }
+  }
+  @media (max-width: 700px) {
+    #tab-customcmds .cc-list-head {
+      padding: 10px 12px;
+    }
+    #tab-customcmds .cc-list-table th,
+    #tab-customcmds .cc-list-table td {
+      padding: 10px;
+    }
+    #tab-customcmds .cc-action-select {
+      min-width: 120px;
+    }
+  }
+
+  @media (max-width: 600px) {
+    .top-nav-inner {
+      padding: 10px 14px;
+      gap: 6px;
+    }
+    .status-card { flex-direction: column; text-align: center; }
+    .status-meta { justify-content: center; }
+  }
+  /* Dim overlay behind open sidebar */
+  .sidebar-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.55); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); z-index: 319; }
+  .sidebar-overlay.active { display: block; }
+  .list-frame {
+    border: 1px solid var(--list-card-border);
+    border-radius: 12px;
+    background: var(--surface);
+    box-shadow: var(--list-card-shadow);
+  }
+  .list-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    padding: 12px 14px;
+    border-bottom: 1px solid var(--list-head-border);
+    background: var(--list-header-bg);
+  }
+  .list-head-row {
+    border-bottom: 1px solid var(--list-head-border);
+  }
+  .list-row {
+    border-bottom: 1px solid var(--list-row-border);
+  }
+  .list-table tbody .list-row:last-child {
+    border-bottom: none;
+  }
+
+  /* Page headers + consistent tab spacing */
+  .tab-stack { display: flex; flex-direction: column; gap: 16px; }
+  .page-head { margin: 2px 0 20px; padding-bottom: 14px; border-bottom: 1px solid var(--border); }
+  .page-head h1 { font-size: 18px; font-weight: 700; letter-spacing: -.01em; color: var(--text); display: flex; align-items: center; gap: 9px; }
+  .page-head h1 svg { width: 18px; height: 18px; color: var(--green); flex-shrink: 0; }
+  .page-head p { margin-top: 5px; font-size: 13px; color: var(--text-dim); line-height: 1.55; }
+  .form-group:last-child { margin-bottom: 0; }
+  @media (max-width: 600px) { .page-head h1 { font-size: 16px; } .container { padding: 20px 16px 40px; } }
+</style>
+</head>
+<body>
+
+<div class="sidebar-overlay" id="sidebarOverlay" onclick="closeSidebar()"></div>
+<div class="app">
+  <aside class="sidebar" id="sidebar">
+    <div class="side-label top">Bot Status</div>
+    <div class="sidebar-status-wrap">
+      <div class="status-card" id="statusCard">
+        <div class="status-avatar" id="statusAvatar">
+          <img id="profilePic" src="" alt="" style="display:none" onerror="this.style.display='none';document.getElementById('avatarEmoji').style.display=''" />
+          <span id="avatarEmoji">🤖</span>
+          <div class="status-badge" id="statusBadge"></div>
+        </div>
+        <div class="status-info">
+          <div class="status-name" id="statusName">Loading...</div>
+          <div class="status-number" id="statusNumber"></div>
+          <div class="status-meta" id="statusMeta"></div>
+          <div class="uptime" id="statusUptime"></div>
+        </div>
+      </div>
+    </div>
+    <div class="side-label">Menu</div>
+    <nav class="side-nav">
+      <button class="nav-item active" data-tab="settings" onclick="showTab('settings', this)" title="Bot Setting"><span class="nav-emoji">⚙️</span> <span class="nav-label">Bot Setting</span></button>
+      <button class="nav-item" data-tab="groupsettings" onclick="showTab('groupsettings', this)" title="Group Setting"><span class="nav-emoji">👥</span> <span class="nav-label">Group Setting</span></button>
+      <button class="nav-item" data-tab="schedules" onclick="showTab('schedules', this)" title="Schedules"><span class="nav-emoji">⏰</span> <span class="nav-label">Schedules</span></button>
+      <button class="nav-item" data-tab="customcmds" onclick="showTab('customcmds', this)" title="Custom Commands"><span class="nav-emoji">🤖</span> <span class="nav-label">Custom Commands</span></button>
+      <button class="nav-item" data-tab="commandlist" onclick="showTab('commandlist', this)" title="Command List"><span class="nav-emoji">📚</span> <span class="nav-label">Command List</span></button>
+    </nav>
+    <div class="side-status">
+      <span id="navStatusText" class="side-status-text">v-</span>
+    </div>
+  </aside>
+  <main class="main">
+<header class="top-nav">
+  <div class="top-nav-inner">
+    <div class="top-nav-left">
+      <button class="menu-btn" onclick="openSidebar()" title="Open menu" aria-label="Open sidebar menu">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 6h18v2H3V6zm0 5h18v2H3v-2zm0 5h18v2H3v-2z"/></svg>
+      </button>
+    </div>
+    <div class="top-nav-right">
+      <button id="themeToggleBtn" class="theme-toggle" onclick="toggleTheme()" title="Switch light/dark mode">🌙 Dark</button>
+    </div>
+  </div>
+</header>
+<div class="container">
+  <!-- Stats row -->
+
+  <!-- Settings Tab -->
+  <div id="tab-settings">
+    <div class="page-head">
+      <h1><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 010 14.14M4.93 4.93a10 10 0 000 14.14"/></svg>Bot Settings</h1>
+      <p>Configure your bot identity, access control, message templates, logs and session.</p>
+    </div>
+    <div class="tab-stack">
+    <div class="grid grid-2">
+      <div class="card">
+        <div class="card-title">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 010 14.14M4.93 4.93a10 10 0 000 14.14"/></svg>
+          Bot Identity
+        </div>
+        <div class="form-group">
+          <label>Bot Name</label>
+          <input type="text" id="botName" placeholder="Ilussion Bot" />
+        </div>
+        <div class="form-group">
+          <label>Bot Owner Name</label>
+          <input type="text" id="botOwner" placeholder="Professor" />
+        </div>
+        <div class="form-group">
+          <label>Author / Sticker Credit</label>
+          <input type="text" id="author" placeholder="Professor" />
+        </div>
+        <div class="form-group">
+          <label>Pack Name (Stickers)</label>
+          <input type="text" id="packname" placeholder="Ilussion Bot" />
+        </div>
+        <div class="form-group">
+          <label>Description</label>
+          <input type="text" id="description" placeholder="Bot description..." />
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          Access & Control
+        </div>
+        <div class="form-group">
+          <label>Owner Number <span style="color:var(--text-dim)">(without + or spaces)</span></label>
+          <input type="text" id="ownerNumber" placeholder="60123456789" value="60123456789" />
+        </div>
+        <div class="form-group">
+          <label>Command Mode</label>
+          <select id="commandMode">
+            <option value="public">Public — Anyone can use commands</option>
+            <option value="private">Private — Owner only</option>
+          </select>
+        </div>
+        <div class="settings-toggle" style="margin-bottom:16px">
+          <div>
+            <strong>Reply command as normal message</strong>
+            <span>When enabled, command replies behave like regular chat messages instead of reply threads.</span>
+          </div>
+          <input type="checkbox" id="commandReplyAsNormalMessage" />
+        </div>
+        <div class="form-group">
+          <label>Timezone <span style="color:var(--text-dim)">(popular list)</span></label>
+          <select id="timeZone">
+            <option value="Asia/Kuala_Lumpur">Asia/Kuala_Lumpur (MY)</option>
+            <option value="Asia/Jakarta">Asia/Jakarta (ID - WIB)</option>
+            <option value="Asia/Makassar">Asia/Makassar (ID - WITA)</option>
+            <option value="Asia/Jayapura">Asia/Jayapura (ID - WIT)</option>
+            <option value="Asia/Singapore">Asia/Singapore (SG)</option>
+            <option value="Asia/Bangkok">Asia/Bangkok (TH)</option>
+            <option value="Asia/Manila">Asia/Manila (PH)</option>
+            <option value="Asia/Tokyo">Asia/Tokyo (JP)</option>
+            <option value="Asia/Seoul">Asia/Seoul (KR)</option>
+            <option value="Europe/London">Europe/London (UK)</option>
+            <option value="America/New_York">America/New_York (US ET)</option>
+            <option value="UTC">UTC</option>
+          </select>
+        </div>
+        <div style="margin-top:24px">
+          <button class="btn btn-green" onclick="saveSettings()" style="width:100%">💾 Save Settings</button>
+          <p style="font-size:12px;color:var(--text-dim);margin-top:8px;text-align:center">Bot akan auto-restart selepas simpan settings.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid grid-2">
+      <div class="card">
+        <div class="card-title">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 7h-9"/><path d="M14 17H5"/><circle cx="17" cy="17" r="3"/><circle cx="7" cy="7" r="3"/></svg>
+          Message Templates
+        </div>
+        <div class="form-group">
+          <label>Alive Message</label>
+          <textarea id="aliveMessage" class="settings-textarea" placeholder="What the bot should say when someone uses alive command..."></textarea>
+        </div>
+        <div class="form-group">
+          <label>Alive Media URL</label>
+          <input type="url" id="aliveMediaUrl" placeholder="https://example.com/banner.jpg" />
+        </div>
+        <div class="form-group">
+          <label>Alive Buttons</label>
+          <div id="aliveButtonsBuilder" class="cc-panel" style="padding:10px;display:flex;flex-direction:column;gap:8px;background:var(--surface2)"></div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px">
+            <button type="button" class="btn btn-outline btn-sm" onclick="addPromoButtonRow('aliveButtonsBuilder')">+ Add Button</button>
+            <button type="button" class="btn btn-outline btn-sm" onclick="clearPromoButtonRows('aliveButtonsBuilder', 'aliveButtons')">Clear</button>
+          </div>
+          <textarea id="aliveButtons" class="settings-textarea" placeholder='[{"buttonId":"ping","buttonText":"Ping"}]' style="display:none"></textarea>
+        </div>
+        <div class="form-group">
+          <label>Menu Message</label>
+          <textarea id="menuMessage" class="settings-textarea" placeholder="Custom menu text shown to users..."></textarea>
+        </div>
+        <div class="form-group">
+          <label>Menu Media URL</label>
+          <input type="url" id="menuMediaUrl" placeholder="https://example.com/menu.jpg" />
+        </div>
+        <div class="form-group" style="margin-bottom:0">
+          <label>Menu Buttons</label>
+          <div id="menuButtonsBuilder" class="cc-panel" style="padding:10px;display:flex;flex-direction:column;gap:8px;background:var(--surface2)"></div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px">
+            <button type="button" class="btn btn-outline btn-sm" onclick="addPromoButtonRow('menuButtonsBuilder')">+ Add Button</button>
+            <button type="button" class="btn btn-outline btn-sm" onclick="clearPromoButtonRows('menuButtonsBuilder', 'menuButtons')">Clear</button>
+          </div>
+          <textarea id="menuButtons" class="settings-textarea" placeholder='[{"buttonId":"menu","buttonText":"Open Menu"}]' style="display:none"></textarea>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l3 7h7l-5.5 4.2L18.5 21 12 16.9 5.5 21 7.5 13.2 2 9h7z"/></svg>
+          Settings Notes
+        </div>
+        <div class="settings-note">
+          <b style="color:var(--text)">Quick guide:</b><br>
+          Update identity fields if you want the bot name and sticker credit to match your brand.<br>
+          Keep command mode on <b style="color:var(--text)">Public</b> if everyone should use the bot.
+        </div>
+        <div class="settings-note" style="margin-top:12px">
+          <b style="color:var(--text)">Message templates:</b><br>
+          Use <b style="color:var(--text)">+ Add Button</b> for Alive/Menu without writing JSON manually.<br>
+          Leave button builder empty if you do not need interactive buttons.
+        </div>
+        <div class="settings-note" style="margin-top:12px">
+          <b style="color:var(--text)">Suggested values:</b><br>
+          Bot Name: short and clear.<br>
+          Pack Name: sticker pack label.<br>
+          Timezone: match your location for schedules.
+        </div>
+      </div>
+    </div>
+
+    <div class="grid grid-2">
+      <div class="card">
+        <div class="card-title" style="justify-content:space-between">
+          <span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:16px;height:16px;vertical-align:middle;margin-right:6px"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+            Console Logs
+          </span>
+          <button class="btn btn-outline btn-sm" onclick="loadLogs()">↻ Refresh</button>
+        </div>
+        <div class="log-container" id="logContainer">
+          <div class="log-empty">Loading logs...</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><path d="M14 14h3v3h-3zm3 3h4v4h-4zm-3 3h3"/></svg>
+          Session Management
+        </div>
+
+        <div id="sessionInfoGrid" style="margin-bottom:16px;display:flex;flex-direction:column;gap:0">
+          <div style="font-size:13px;color:var(--text-dim);padding:8px 0">Loading session info...</div>
+        </div>
+
+        <div id="qrConnected" style="display:none;text-align:center;padding:10px 0;width:100%">
+          <div style="font-size:40px;margin-bottom:8px">✅</div>
+          <div style="font-weight:700;font-size:15px;color:var(--green)">Bot Connected</div>
+          <div id="qrConnectedAccount" style="margin-top:10px;padding:10px;background:var(--surface2);border-radius:8px;font-size:13px;text-align:left;line-height:1.8"></div>
+        </div>
+
+        <div id="qrWaiting" style="display:none;text-align:center;padding:16px">
+          <div class="qr-spin" style="font-size:40px;margin-bottom:10px">⏳</div>
+          <div style="font-weight:600;font-size:14px">Generating QR Code...</div>
+          <div style="font-size:12px;color:var(--text-dim);margin-top:4px">Please wait a moment.</div>
+        </div>
+
+        <div id="qrImageWrap" style="display:none;text-align:center;margin-bottom:10px">
+          <div style="background:#fff;padding:10px;border-radius:12px;display:inline-block;box-shadow:0 0 0 4px rgba(37,211,102,.3)">
+            <img id="qrImage" src="" alt="QR Code" style="width:200px;height:200px;display:block" />
+          </div>
+          <div style="margin-top:10px;font-size:12px;color:var(--text-dim)">Open WhatsApp → Linked Devices → Link a Device</div>
+          <div id="qrExpiry" style="margin-top:4px;font-size:12px;color:var(--yellow)"></div>
+        </div>
+
+        <div id="qrDefault" style="text-align:center;padding:10px">
+          <div style="font-size:34px;margin-bottom:8px">📱</div>
+          <div style="font-size:13px;color:var(--text-dim)">Loading session state...</div>
+        </div>
+
+        <div style="display:flex;gap:8px;margin-top:10px">
+          <button class="btn btn-outline btn-sm" onclick="loadSession()" style="flex:1">↻ Refresh Session</button>
+          <button class="btn btn-sm" style="background:rgba(248,81,73,.15);color:var(--red);border:1px solid var(--red);flex:1" onclick="confirmReset()">🔓 Clear Session</button>
+        </div>
+      </div>
+    </div>
+    </div>
+  </div>
+
+  <!-- Group Setting Tab -->
+  <div id="tab-groupsettings" style="display:none">
+    <div class="page-head">
+      <h1><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>Group Settings</h1>
+      <p>Review auto features, connected groups and banned users.</p>
+    </div>
+    <div class="grid" style="gap:16px">
+      <div class="card">
+        <div class="card-title">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+          Auto Features
+        </div>
+        <p style="font-size:13px;color:var(--text-dim);margin-bottom:16px">These are read from the bot's data files. To toggle them, use the corresponding bot commands in WhatsApp.</p>
+        <div id="featuresContent"></div>
+      </div>
+
+      <div class="card">
+        <div class="card-title" style="justify-content:space-between">
+          <span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:16px;height:16px;vertical-align:middle;margin-right:6px"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
+            Groups
+          </span>
+          <button class="btn btn-outline btn-sm" onclick="loadGroups()">↻ Refresh</button>
+        </div>
+        <div id="groupsContent"><p style="color:var(--text-dim);font-size:13px">Loading...</p></div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/></svg>
+          Banned Users
+        </div>
+        <div id="bannedContent">
+          <p style="color:var(--text-dim);font-size:13px">Loading...</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Logs Tab -->
+  <div id="tab-schedules" style="display:none">
+    <div class="page-head">
+      <h1><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>Scheduled Messages</h1>
+      <p>Automate daily or one-time messages to your groups and contacts.</p>
+    </div>
+    <div class="tab-stack">
+    <div class="grid grid-2">
+      <div class="card">
+        <div class="card-title">⏰ Add Scheduled Chat</div>
+        <div class="form-group">
+          <label>Target Type</label>
+          <select id="scheduleTargetMode" onchange="toggleScheduleTargetMode()">
+            <option value="group">Group</option>
+            <option value="personal">Personal</option>
+            <option value="manual">Manual Chat ID</option>
+          </select>
+        </div>
+        <div class="form-group" id="scheduleTargetSelectWrap">
+          <label id="scheduleTargetLabel">Target Group</label>
+          <select id="scheduleChatId"></select>
+        </div>
+        <div class="form-group" id="scheduleManualWrap" style="display:none">
+          <label>Manual Chat ID / Number</label>
+          <input type="text" id="scheduleManualChatId" placeholder="60123456789 atau 60123456789@s.whatsapp.net" />
+          <small style="display:block;font-size:12px;color:var(--text-dim);margin-top:6px">Untuk personal, nombor tanpa simbol akan auto jadi @s.whatsapp.net.</small>
+        </div>
+        <div class="form-group">
+          <label>Type</label>
+          <select id="scheduleType" onchange="toggleScheduleDateField()">
+            <option value="daily">Daily</option>
+            <option value="once">Once</option>
+          </select>
+        </div>
+        <div class="form-group" id="scheduleDateWrap" style="display:none">
+          <label>Date (YYYY-MM-DD)</label>
+          <input type="date" id="scheduleDate" style="max-width:190px" />
+        </div>
+        <div class="form-group">
+          <label>Time (HH:MM)</label>
+          <input type="time" id="scheduleTime" style="max-width:190px" />
+        </div>
+        <div class="form-group">
+          <label>Message</label>
+          <textarea id="scheduleMessage" rows="4" placeholder="Scheduled message..."></textarea>
+        </div>
+        <button class="btn btn-green" onclick="addSchedule()" style="width:100%">➕ Add Schedule</button>
+      </div>
+      <div class="card">
+        <div class="card-title">📌 Tips</div>
+        <div style="font-size:13px;color:var(--text-dim);line-height:1.8">
+          <div>• Type <b style="color:var(--text)">Daily</b> akan hantar mesej setiap hari pada jam yang ditetapkan.</div>
+          <div>• Type <b style="color:var(--text)">Once</b> akan hantar sekali sahaja pada tarikh + masa dipilih.</div>
+          <div>• Anda boleh edit atau delete schedule dari senarai di bawah.</div>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title" style="justify-content:space-between">
+        <span>📋 Scheduled Chat List</span>
+        <button class="btn btn-outline btn-sm" onclick="loadSchedules(true)">↻ Refresh</button>
+      </div>
+      <div id="schedulesContent"><p style="color:var(--text-dim);font-size:13px">Loading...</p></div>
+    </div>
+    </div>
+  </div>
+
+  <!-- Command List Tab -->
+  <div id="tab-commandlist" style="display:none">
+    <div class="page-head">
+      <h1><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>Command List</h1>
+      <p>Every command your bot understands, grouped by category.</p>
+    </div>
+    <div class="card">
+      <div class="card-title" style="justify-content:space-between">
+        <span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:16px;height:16px;vertical-align:middle;margin-right:6px"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+          Command List
+        </span>
+        <button class="btn btn-outline btn-sm" onclick="loadCommandList()">↻ Refresh</button>
+      </div>
+      <div id="commandListContent"><p style="color:var(--text-dim);font-size:13px">Loading...</p></div>
+    </div>
+  </div>
+
+  <!-- Custom Commands Tab -->
+  <div id="tab-customcmds" style="display:none">
+    <div class="page-head">
+      <h1><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Custom Commands</h1>
+      <p>Create, edit and manage your own bot commands with a cleaner shadcn-style layout.</p>
+    </div>
+    <!-- Add Command Form -->
+    <div class="card cc-panel cc-panel-main" style="margin-bottom:14px">
+        <div class="card-title cc-main-title">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          Add Custom Command
+        </div>
+        <div class="cc-composer">
+          <fieldset class="cc-fieldset">
+            <legend class="cc-field-legend">Command Basics</legend>
+            <p class="cc-field-description">Set trigger, category, dan penerangan ringkas command tanpa perlu konfigurasi kompleks.</p>
+            <div class="cc-field-group">
+              <div class="cc-field-grid-2">
+                <div class="cc-field">
+                  <label class="cc-field-label">Trigger <span style="color:var(--text-dim)">(must start with .)</span></label>
+                  <input type="text" id="ccTrigger" placeholder=".hello" />
+                </div>
+                <div class="cc-field">
+                  <label id="ccCategoryLabel" class="cc-field-label">Category</label>
+                  <select id="ccCategory">
+                    <option value="General">General</option>
+                    <option value="Greeting">Greeting</option>
+                    <option value="Info">Info</option>
+                    <option value="Utility">Utility</option>
+                    <option value="Fun">Fun</option>
+                    <option value="Media">Media</option>
+                    <option value="Moderation">Moderation</option>
+                    <option value="Other">Other</option>
+                  </select>
+                </div>
+              </div>
+              <div id="ccDescriptionWrap" class="cc-field">
+                <label id="ccDescriptionLabel" class="cc-field-label">Description <span style="color:var(--text-dim)">(optional)</span></label>
+                <input type="text" id="ccDescription" placeholder="Greeting command" />
+              </div>
+            </div>
+          </fieldset>
+          <div class="form-group" id="ccResponseWrap" style="display:block;margin-bottom:0">
+            <label id="ccResponseLabel">Text</label>
+            <textarea id="ccResponse" rows="4" placeholder="Tulis text atau caption di sini..."></textarea>
+            <input type="hidden" id="ccMediaType" value="text" />
+            <div class="cc-type-icons" id="ccTypeIcons">
+              <button type="button" class="cc-type-btn active" data-type="text" onclick="setCcComposerType('text')">📝 Text</button>
+              <button type="button" class="cc-type-btn" data-type="image" onclick="setCcComposerType('image')">🖼️ Gallery</button>
+              <button type="button" class="cc-type-btn" data-type="video" onclick="setCcComposerType('video')">🎬 Video</button>
+              <button type="button" class="cc-type-btn" data-type="audio" onclick="setCcComposerType('audio')">🎵 Music</button>
+              <button type="button" class="cc-type-btn" data-type="document" onclick="setCcComposerType('document')">📄 Document</button>
+            </div>
+          </div>
+        </div>
+        <div id="ccComposeFields" style="display:block">
+        <div id="ccMediaSection" style="display:none;border-top:1px solid var(--border);margin:16px 0 14px;padding-top:14px">
+          <div id="ccMediaHeading" style="font-size:12px;font-weight:600;color:var(--text-dim);margin-bottom:12px;text-transform:uppercase;letter-spacing:.05em">Media Attachment</div>
+          <div id="ccMediaUrlWrap" style="display:none">
+            <div class="form-group" id="ccMediaSourceWrap">
+              <label>Source</label>
+              <div style="display:flex;gap:6px">
+                <button id="ccSrcUrlBtn" onclick="setCcSource('url')" style="flex:1;padding:7px;border-radius:6px;border:1px solid var(--green);background:var(--green);color:#000;font-size:12px;font-weight:600;cursor:pointer">🔗 From URL</button>
+                <button id="ccSrcUploadBtn" onclick="setCcSource('upload')" style="flex:1;padding:7px;border-radius:6px;border:1px solid var(--border);background:transparent;color:var(--text-dim);font-size:12px;font-weight:600;cursor:pointer">⬆️ Upload File</button>
+              </div>
+            </div>
+            <div class="form-group" id="ccUrlInput">
+              <label>Media URL</label>
+              <input type="url" id="ccMediaUrl" placeholder="https://example.com/image.jpg" />
+            </div>
+            <div class="form-group" id="ccUploadInput" style="display:none">
+              <label>Upload File <span style="color:var(--text-dim)">(max 64 MB)</span></label>
+              <div id="ccDropZone" onclick="document.getElementById('ccMediaFile').click()" style="border:2px dashed var(--border);border-radius:8px;padding:20px;text-align:center;cursor:pointer;transition:border-color .2s" onmouseenter="this.style.borderColor='var(--green)'" onmouseleave="this.style.borderColor='var(--border)'">
+                <div id="ccDropText" style="color:var(--text-dim);font-size:13px">📂 Click to browse, or drag & drop here</div>
+                <div id="ccUploadProgress" style="display:none;margin-top:8px">
+                  <div style="background:var(--surface2);border-radius:4px;height:6px;overflow:hidden"><div id="ccUploadBar" style="height:100%;background:var(--green);width:0%;transition:width .3s"></div></div>
+                  <div id="ccUploadStatus" style="font-size:12px;color:var(--text-dim);margin-top:4px"></div>
+                </div>
+              </div>
+              <input type="file" id="ccMediaFile" style="display:none" accept="image/*,video/*,audio/*,.pdf,.doc,.docx,.xls,.xlsx,.zip,.txt" onchange="handleCcFileChange()" />
+              <input type="hidden" id="ccUploadedUrl" />
+            </div>
+          </div>
+          <div class="form-group" id="ccFileNameWrap" style="display:none">
+            <label>File Name <span style="color:var(--text-dim)">(shown to receiver)</span></label>
+            <input type="text" id="ccFileName" placeholder="file.pdf" />
+          </div>
+        </div>
+        <div class="form-group" id="ccButtonsWrap" style="display:none">
+          <label id="ccButtonsLabel">Buttons <span style="color:var(--text-dim)">(optional)</span></label>
+          <div class="cc-help" style="margin-bottom:8px">Supported UI types: <b style="color:var(--text)">quick_reply</b>, <b style="color:var(--text)">cta_url</b>, <b style="color:var(--text)">cta_call</b>, <b style="color:var(--text)">cta_copy</b>, <b style="color:var(--text)">single_select</b>.</div>
+          <div id="ccButtonsContainer" style="display:flex;flex-direction:column;gap:8px"></div>
+          <button type="button" class="btn btn-outline btn-sm" onclick="addCcButtonRow('ccButtonsContainer')" style="margin-top:8px">+ Add Button</button>
+        </div>
+        </div>
+        <button class="btn btn-green" onclick="addCustomCommand()" style="width:100%">➕ Add Command</button>
+        <div style="display:flex;gap:8px;align-items:center;justify-content:space-between;flex-wrap:wrap;margin-top:10px">
+          <button class="btn btn-outline btn-sm" onclick="openCcGuideModal()">📘 How It Works</button>
+          <div id="ccStats" style="font-size:12px;color:var(--text-dim);padding:6px 10px;background:var(--surface2);border-radius:999px"></div>
+        </div>
+        <p class="cc-note">Command terus aktif, tak perlu restart.</p>
+      </div>
+
+    <!-- Commands List -->
+    <div class="card cc-panel">
+      <div class="card-title" style="justify-content:space-between">
+        <span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:16px;height:16px;vertical-align:middle;margin-right:6px"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+          Saved Commands
+        </span>
+        <button class="btn btn-outline btn-sm" onclick="loadCustomCommands()">↻ Refresh</button>
+      </div>
+      <div id="ccList"><p style="color:var(--text-dim);font-size:13px">Loading...</p></div>
+    </div>
+
+    <!-- Edit Modal -->
+    <div id="ccEditModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:200;align-items:center;justify-content:center;overflow-y:auto">
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:28px;max-width:480px;width:92%;margin:auto">
+        <div style="font-size:16px;font-weight:700;margin-bottom:16px">✏️ Edit Command <span id="ccEditTriggerLabel" style="color:var(--green)"></span></div>
+        <input type="hidden" id="ccEditTrigger" />
+        <div class="form-group">
+          <label>Response <span style="color:var(--text-dim)">(caption if media is attached)</span></label>
+          <textarea id="ccEditResponse" rows="3"></textarea>
+        </div>
+        <div class="form-group">
+          <label>Description <span style="color:var(--text-dim)">(optional)</span></label>
+          <input type="text" id="ccEditDescription" />
+        </div>
+        <div class="form-group">
+          <label>Buttons <span style="color:var(--text-dim)">(optional)</span></label>
+          <div id="ccEditButtonsContainer" style="display:flex;flex-direction:column;gap:8px"></div>
+          <button type="button" class="btn btn-outline btn-sm" onclick="addCcButtonRow('ccEditButtonsContainer')" style="margin-top:8px">+ Add Button</button>
+        </div>
+        <div class="form-group">
+          <label>Category</label>
+          <select id="ccEditCategory">
+            <option value="General">General</option>
+            <option value="Greeting">Greeting</option>
+            <option value="Info">Info</option>
+            <option value="Utility">Utility</option>
+            <option value="Fun">Fun</option>
+            <option value="Media">Media</option>
+            <option value="Moderation">Moderation</option>
+            <option value="Other">Other</option>
+          </select>
+        </div>
+        <div style="border-top:1px solid var(--border);margin:14px 0 12px;padding-top:12px">
+          <div style="font-size:12px;font-weight:600;color:var(--text-dim);margin-bottom:10px;text-transform:uppercase;letter-spacing:.05em">📎 Media Attachment</div>
+          <div class="form-group">
+            <label>Media Type</label>
+            <select id="ccEditMediaType" onchange="toggleEditMediaFields()">
+              <option value="">— Text only —</option>
+              <option value="image">🖼️ Image</option>
+              <option value="video">🎬 Video</option>
+              <option value="audio">🎵 Audio / Music</option>
+              <option value="document">📄 File / Document</option>
+            </select>
+          </div>
+          <div id="ccEditMediaUrlWrap" style="display:none">
+            <div class="form-group">
+              <label>Source</label>
+              <div style="display:flex;gap:6px">
+                <button id="ccEditSrcUrlBtn" onclick="setCcEditSource('url')" style="flex:1;padding:7px;border-radius:6px;border:1px solid var(--green);background:var(--green);color:#000;font-size:12px;font-weight:600;cursor:pointer">🔗 From URL</button>
+                <button id="ccEditSrcUploadBtn" onclick="setCcEditSource('upload')" style="flex:1;padding:7px;border-radius:6px;border:1px solid var(--border);background:transparent;color:var(--text-dim);font-size:12px;font-weight:600;cursor:pointer">⬆️ Upload File</button>
+              </div>
+            </div>
+            <div class="form-group" id="ccEditUrlInput">
+              <label>Media URL</label>
+              <input type="url" id="ccEditMediaUrl" placeholder="https://example.com/file.jpg" />
+            </div>
+            <div class="form-group" id="ccEditUploadInput" style="display:none">
+              <label>Upload File <span style="color:var(--text-dim)">(max 64 MB)</span></label>
+              <div id="ccEditDropZone" onclick="document.getElementById('ccEditMediaFile').click()" style="border:2px dashed var(--border);border-radius:8px;padding:20px;text-align:center;cursor:pointer;transition:border-color .2s" onmouseenter="this.style.borderColor='var(--green)'" onmouseleave="this.style.borderColor='var(--border)'">
+                <div id="ccEditDropText" style="color:var(--text-dim);font-size:13px">📂 Click to browse, or drag & drop here</div>
+                <div id="ccEditUploadProgress" style="display:none;margin-top:8px">
+                  <div style="background:var(--surface2);border-radius:4px;height:6px;overflow:hidden"><div id="ccEditUploadBar" style="height:100%;background:var(--green);width:0%;transition:width .3s"></div></div>
+                  <div id="ccEditUploadStatus" style="font-size:12px;color:var(--text-dim);margin-top:4px"></div>
+                </div>
+              </div>
+              <input type="file" id="ccEditMediaFile" style="display:none" accept="image/*,video/*,audio/*,.pdf,.doc,.docx,.xls,.xlsx,.zip,.txt" onchange="handleCcEditFileChange()" />
+              <input type="hidden" id="ccEditUploadedUrl" />
+            </div>
+          </div>
+          <div class="form-group" id="ccEditFileNameWrap" style="display:none">
+            <label>File Name <span style="color:var(--text-dim)">(shown to receiver)</span></label>
+            <input type="text" id="ccEditFileName" placeholder="file.pdf" />
+          </div>
+        </div>
+        <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:8px">
+          <button class="btn btn-outline" onclick="closeCcEditModal()">Cancel</button>
+          <button class="btn btn-green" onclick="saveEditCustomCommand()">💾 Save</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- View Modal -->
+    <div id="ccViewModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:205;align-items:center;justify-content:center;overflow-y:auto" onclick="if(event.target===this) closeCcViewModal()">
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:24px;max-width:540px;width:92%;margin:auto">
+        <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:14px">
+          <div style="font-size:16px;font-weight:700">👁️ View Command <span id="ccViewTriggerLabel" style="color:var(--green)"></span></div>
+          <button class="btn btn-outline btn-sm" onclick="closeCcViewModal()">✕ Close</button>
+        </div>
+        <div style="display:grid;gap:10px;font-size:13px">
+          <div><b style="color:var(--text)">Description:</b> <span id="ccViewDescription" style="color:var(--text-dim)">—</span></div>
+          <div><b style="color:var(--text)">Category:</b> <span id="ccViewCategory" style="color:var(--text-dim)">—</span></div>
+          <div><b style="color:var(--text)">Media Type:</b> <span id="ccViewMediaType" style="color:var(--text-dim)">—</span></div>
+          <div><b style="color:var(--text)">Media URL:</b> <span id="ccViewMediaUrl" style="color:var(--text-dim)">—</span></div>
+          <div><b style="color:var(--text)">Response:</b></div>
+          <div id="ccViewResponse" style="white-space:pre-wrap;background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:10px;color:var(--text-dim)">—</div>
+          <div><b style="color:var(--text)">Buttons:</b> <span id="ccViewButtons" style="color:var(--text-dim)">0</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- How It Works Modal -->
+    <div id="ccGuideModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:210;align-items:center;justify-content:center;overflow-y:auto" onclick="if(event.target===this) closeCcGuideModal()">
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:24px;max-width:560px;width:92%;margin:auto">
+        <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:12px">
+          <div style="font-size:16px;font-weight:700">📘 How Custom Commands Work</div>
+          <button class="btn btn-outline btn-sm" onclick="closeCcGuideModal()">✕ Close</button>
+        </div>
+        <div style="font-size:13px;color:var(--text-dim);line-height:1.7">
+          <b style="color:var(--text)">Trigger</b> — command yang user taip di WhatsApp. Contoh: <code style="background:var(--surface2);padding:1px 6px;border-radius:3px">.hello</code><br><br>
+          <b style="color:var(--text)">Response</b> — mesej balasan bot (boleh teks, emoji, caption media).<br><br>
+          <b style="color:var(--text)">Buttons</b> — sokong semua type di README package: quick reply, URL, call, copy, dan single select (list).<br><br>
+          <b style="color:var(--text)">Category</b> — untuk susun command dalam dashboard (General, Fun, Utility, dll).<br><br>
+          <b style="color:var(--text)">Works in</b> — group dan private chat.<br><br>
+          <b style="color:var(--text)">Priority</b> — custom command jalan selepas built-in command, jadi tak override command asal bot.
+        </div>
+        <div style="background:var(--surface2);border-radius:8px;padding:12px;font-size:12px;color:var(--text-dim);margin-top:12px">
+          💡 <b>Tip:</b> guna <code style="background:var(--bg);padding:1px 5px;border-radius:3px">\n</code> untuk line break. Contoh: <code style="background:var(--bg);padding:1px 5px;border-radius:3px">Line 1\nLine 2</code>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Confirm modal -->
+  <div id="confirmModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:200;display:none;align-items:center;justify-content:center">
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:28px;max-width:360px;width:90%;text-align:center">
+      <div style="font-size:36px;margin-bottom:12px">⚠️</div>
+      <div style="font-size:17px;font-weight:700;margin-bottom:8px">Clear Session?</div>
+      <div style="font-size:13px;color:var(--text-dim);margin-bottom:20px;line-height:1.6">This will disconnect the current WhatsApp account and show a new QR code. The bot will be offline for ~10 seconds.</div>
+      <div style="display:flex;gap:10px;justify-content:center">
+        <button class="btn btn-outline" onclick="closeModal()">Cancel</button>
+        <button class="btn" style="background:var(--red);color:#fff" onclick="doReset()">Yes, Clear It</button>
+      </div>
+    </div>
+  </div>
+
+</div>
+  </main>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast"></div>
+
+<script>
+let currentStatus = null
+
+function getStoredTheme() {
+  const saved = localStorage.getItem('dashboardTheme')
+  if (saved === 'light' || saved === 'dark') return saved
+  return 'dark'
+}
+
+function applyTheme(theme) {
+  const selectedTheme = theme === 'light' ? 'light' : 'dark'
+  document.body.setAttribute('data-theme', selectedTheme)
+  localStorage.setItem('dashboardTheme', selectedTheme)
+  const btn = document.getElementById('themeToggleBtn')
+  if (btn) {
+    btn.textContent = selectedTheme === 'light' ? '☀️ Light' : '🌙 Dark'
+  }
+}
+
+function toggleTheme() {
+  const current = document.body.getAttribute('data-theme') || getStoredTheme()
+  applyTheme(current === 'light' ? 'dark' : 'light')
+}
+
+// ── Utilities ────────────────────────────────────────────────────────────────
+function showToast(msg, type = 'success') {
+  const t = document.getElementById('toast')
+  t.textContent = (type === 'success' ? '✅ ' : '❌ ') + msg
+  t.className = `toast ${type} show`
+  setTimeout(() => t.className = 'toast', 3000)
+}
+
+function formatUptime(s) {
+  const h = Math.floor(s / 3600), m = Math.floor((s % 3600) / 60), sec = Math.floor(s % 60)
+  if (h > 0) return `${h}h ${m}m uptime`
+  if (m > 0) return `${m}m ${sec}s uptime`
+  return `${sec}s uptime`
+}
+
+function formatTime(ts) {
+  return new Date(ts).toLocaleTimeString('en-US', { hour12: false })
+}
+
+// ── Tab switching ────────────────────────────────────────────────────────────
+function showTab(name, btn) {
+  document.querySelectorAll('[id^=tab-]').forEach(el => el.style.display = 'none')
+  document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'))
+  document.getElementById('tab-' + name).style.display = ''
+
+  const activeControls = document.querySelectorAll(`[data-tab="${name}"]`)
+  activeControls.forEach(el => el.classList.add('active'))
+  if (btn) btn.classList.add('active')
+
+  closeSidebar()
+  if (name === 'customcmds') loadCustomCommands()
+  if (name === 'schedules') loadSchedules(true)
+  if (name === 'groupsettings') {
+    loadFeatures()
+    loadGroups()
+    loadBanned()
+  }
+  if (name === 'settings') {
+    loadLogs()
+    loadSession()
+  } else {
+    stopQrPoll()
+  }
+  if (name === 'commandlist') {
+    loadCommandList()
+  }
+}
+
+// ── Command List ─────────────────────────────────────────────────────────────
+async function loadCommandList() {
+  const el = document.getElementById('commandListContent')
+  if (!el) return
+  el.innerHTML = '<p style="color:var(--text-dim);font-size:13px">Loading...</p>'
+
+  try {
+    const data = await fetch('/api/command-list').then(r => r.json())
+    if (data && data.success === false) {
+      el.innerHTML = `<p style="color:var(--red);font-size:13px">${escapeHtml(data.error || 'Failed to load command list')}</p>`
+      return
+    }
+
+    const inferPermission = (row, index) => {
+      const trigger = String(row.trigger || '').toLowerCase()
+      if (/(owner|sudo|ban|unban|update|pair)/.test(trigger)) return 'Owner'
+      if (/(kick|mute|unmute|promote|demote|warn|warnings|group|antilink|antitag)/.test(trigger)) return 'Admin'
+      if (/(tagall|hidetag|staff|groupinfo|schedule)/.test(trigger)) return 'Group'
+      if (row.type === 'custom') return 'Everyone'
+      return index % 2 === 0 ? 'Everyone' : 'Group'
+    }
+
+    const inferFunction = (row) => {
+      if (row.type === 'custom') {
+        return `Custom command untuk balas trigger ${row.trigger || ''} dengan respon yang telah ditetapkan.`
+      }
+      return `Command ${row.name || row.trigger || ''} menjalankan fungsi bot berdasarkan modul ${row.source || 'system'}.`
+    }
+
+    const inferUsage = (row) => {
+      const trigger = row.trigger || '.'
+      if (row.type === 'custom') return `${trigger} (ikut response yang diset)`
+      return `${trigger} [parameter optional]`
+    }
+
+    const normalizeRows = (rows, type) => rows.map((row, index) => ({
+      ...row,
+      type,
+      permission: inferPermission({ ...row, type }, index),
+      usage: inferUsage({ ...row, type }),
+      functionText: inferFunction({ ...row, type }),
+      _id: `${type}-${index}`,
+    }))
+
+    const builtIn = normalizeRows(Array.isArray(data.builtIn) ? data.builtIn : [], 'built-in')
+    const custom = normalizeRows(Array.isArray(data.custom) ? data.custom : [], 'custom')
+    const allCommandsById = new Map([...builtIn, ...custom].map((row) => [row._id, row]))
+    const total = Number(data.total || builtIn.length + custom.length)
+
+    const permissionText = (permission) => {
+      const p = String(permission || 'Everyone')
+      if (p === 'Owner') return `<span style="color:var(--red);font-weight:600">Owner</span>`
+      if (p === 'Admin') return `<span style="color:var(--yellow);font-weight:600">Admin</span>`
+      if (p === 'Group') return `<span style="color:var(--blue);font-weight:600">Group</span>`
+      return `<span style="color:var(--green);font-weight:600">Everyone</span>`
+    }
+
+    const renderRows = (rows, emptyMessage) => {
+      if (!rows.length) {
+        return `<tr class="list-row"><td colspan="4" style="padding:10px;color:var(--text-dim);text-align:left">${escapeHtml(emptyMessage)}</td></tr>`
+      }
+      return rows.map((row) => `
+      <tr class="list-row">
+        <td style="padding:10px;font-weight:600;text-align:left">${escapeHtml(row.trigger || '')}</td>
+        <td style="padding:10px;color:var(--text-dim);text-align:left">${escapeHtml(row.name || '')}</td>
+        <td style="padding:10px;text-align:left">${permissionText(row.permission)}</td>
+        <td style="padding:10px;text-align:center">
+          <button class="cmd-info-btn" data-cmdid="${escapeHtml(row._id)}" title="Lihat fungsi & cara guna" style="width:28px;height:28px;border-radius:999px;border:1px solid var(--border);background:var(--surface2);color:var(--text);font-weight:700;cursor:pointer">?</button>
+        </td>
+      </tr>
+    `).join('')
+    }
+
+    el.innerHTML = `
+      <p id="commandListSummary" style="font-size:13px;color:var(--text-dim);margin-bottom:12px">Showing ${total} of ${total} commands</p>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px">
+        <input id="commandSearchInput" type="text" placeholder="Search trigger, name, or permission..." style="flex:1 1 280px" />
+        <select id="commandTypeFilter" style="flex:0 1 220px">
+          <option value="all">All Types</option>
+          <option value="built-in">Built-in Only</option>
+          <option value="custom">Custom Only</option>
+        </select>
+        <select id="commandPermissionFilter" style="flex:0 1 220px">
+          <option value="all">All Permissions</option>
+          <option value="Admin">Admin</option>
+          <option value="Owner">Owner</option>
+          <option value="Everyone">Everyone</option>
+          <option value="Group">Group</option>
+        </select>
+      </div>
+      <div class="card list-frame" style="margin-bottom:14px;padding:0;overflow:hidden">
+        <div class="list-head">
+          <div style="font-weight:700">Built-in Commands</div>
+          <div id="builtInCount" style="font-size:12px;color:var(--text-dim)">${builtIn.length} items</div>
+        </div>
+        <div style="overflow-x:auto">
+          <table class="list-table" style="width:100%;border-collapse:collapse;font-size:13px">
+            <thead>
+              <tr class="list-head-row">
+                <th style="text-align:left;padding:8px 10px;color:var(--text-dim)">Trigger</th>
+                <th style="text-align:left;padding:8px 10px;color:var(--text-dim)">Name</th>
+                <th style="text-align:left;padding:8px 10px;color:var(--text-dim)">Permission</th>
+                <th style="text-align:center;padding:8px 10px;color:var(--text-dim)">Action</th>
+              </tr>
+            </thead>
+            <tbody id="builtInRows">${renderRows(builtIn, 'No built-in commands found.')}</tbody>
+          </table>
+        </div>
+      </div>
+      <div class="card list-frame" style="padding:0;overflow:hidden">
+        <div class="list-head">
+          <div style="font-weight:700">Custom Commands</div>
+          <div id="customCount" style="font-size:12px;color:var(--text-dim)">${custom.length} items</div>
+        </div>
+        <div style="overflow-x:auto">
+          <table class="list-table" style="width:100%;border-collapse:collapse;font-size:13px">
+            <thead>
+              <tr class="list-head-row">
+                <th style="text-align:left;padding:8px 10px;color:var(--text-dim)">Trigger</th>
+                <th style="text-align:left;padding:8px 10px;color:var(--text-dim)">Name</th>
+                <th style="text-align:left;padding:8px 10px;color:var(--text-dim)">Permission</th>
+                <th style="text-align:center;padding:8px 10px;color:var(--text-dim)">Action</th>
+              </tr>
+            </thead>
+            <tbody id="customRows">${renderRows(custom, 'No custom commands yet.')}</tbody>
+          </table>
+        </div>
+      </div>
+      <div id="commandInfoModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.72);z-index:220;align-items:center;justify-content:center;padding:18px" onclick="if(event.target===this)this.style.display='none'">
+        <div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;max-width:520px;width:100%;padding:20px">
+          <div style="display:flex;justify-content:space-between;gap:12px;align-items:center;margin-bottom:12px">
+            <div style="font-size:16px;font-weight:700">Command Info <span id="cmdInfoTrigger" style="color:var(--green)"></span></div>
+            <button data-cmd-close="1" class="btn btn-outline btn-sm">✕ Close</button>
+          </div>
+          <div style="display:grid;gap:10px;font-size:13px;color:var(--text-dim)">
+            <div><b style="color:var(--text)">Name:</b> <span id="cmdInfoName">-</span></div>
+            <div><b style="color:var(--text)">Permission:</b> <span id="cmdInfoPermission">-</span></div>
+            <div><b style="color:var(--text)">Fungsi:</b> <span id="cmdInfoFunction">-</span></div>
+            <div><b style="color:var(--text)">Cara Guna:</b></div>
+            <div id="cmdInfoUsage" style="background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:10px;color:var(--text)">-</div>
+          </div>
+        </div>
+      </div>
+    `
+
+    const summaryEl = document.getElementById('commandListSummary')
+    const builtInCountEl = document.getElementById('builtInCount')
+    const customCountEl = document.getElementById('customCount')
+    const builtInRowsEl = document.getElementById('builtInRows')
+    const customRowsEl = document.getElementById('customRows')
+    const searchInput = document.getElementById('commandSearchInput')
+    const typeFilter = document.getElementById('commandTypeFilter')
+    const permissionFilter = document.getElementById('commandPermissionFilter')
+    const builtInCard = builtInRowsEl?.closest('.list-frame')
+    const customCard = customRowsEl?.closest('.list-frame')
+    const modalEl = document.getElementById('commandInfoModal')
+    const modalTriggerEl = document.getElementById('cmdInfoTrigger')
+    const modalNameEl = document.getElementById('cmdInfoName')
+    const modalPermissionEl = document.getElementById('cmdInfoPermission')
+    const modalFunctionEl = document.getElementById('cmdInfoFunction')
+    const modalUsageEl = document.getElementById('cmdInfoUsage')
+
+    const applyFilter = () => {
+      const q = String(searchInput?.value || '').trim().toLowerCase()
+      const selectedType = String(typeFilter?.value || 'all')
+      const selectedPermission = String(permissionFilter?.value || 'all')
+
+      const matchesQuery = (row) => {
+        if (!q) return true
+        return [row.trigger, row.name, row.permission, row.source].some((value) => String(value || '').toLowerCase().includes(q))
+      }
+
+      const matchesPermission = (row) => {
+        if (selectedPermission === 'all') return true
+        return String(row.permission || '').toLowerCase() === selectedPermission.toLowerCase()
+      }
+
+      const showBuiltIn = selectedType !== 'custom'
+      const showCustom = selectedType !== 'built-in'
+
+      const filteredBuiltIn = showBuiltIn ? builtIn.filter((row) => matchesQuery(row) && matchesPermission(row)) : []
+      const filteredCustom = showCustom ? custom.filter((row) => matchesQuery(row) && matchesPermission(row)) : []
+      const shownTotal = filteredBuiltIn.length + filteredCustom.length
+
+      if (summaryEl) summaryEl.textContent = `Showing ${shownTotal} of ${total} commands`
+      if (builtInCountEl) builtInCountEl.textContent = `${filteredBuiltIn.length} items`
+      if (customCountEl) customCountEl.textContent = `${filteredCustom.length} items`
+      if (builtInRowsEl) builtInRowsEl.innerHTML = renderRows(filteredBuiltIn, 'No built-in commands match your filter.')
+      if (customRowsEl) customRowsEl.innerHTML = renderRows(filteredCustom, 'No custom commands match your filter.')
+      if (builtInCard) builtInCard.style.display = showBuiltIn ? '' : 'none'
+      if (customCard) customCard.style.display = showCustom ? '' : 'none'
+    }
+
+    const openCommandInfo = (row) => {
+      if (!row || !modalEl) return
+      if (modalTriggerEl) modalTriggerEl.textContent = row.trigger || ''
+      if (modalNameEl) modalNameEl.textContent = row.name || '-'
+      if (modalPermissionEl) modalPermissionEl.textContent = row.permission || 'Everyone'
+      if (modalFunctionEl) modalFunctionEl.textContent = row.functionText || '-'
+      if (modalUsageEl) modalUsageEl.textContent = row.usage || '-'
+      modalEl.style.display = 'flex'
+    }
+
+    const closeCommandInfo = () => {
+      if (modalEl) modalEl.style.display = 'none'
+    }
+
+    el.onclick = (event) => {
+      const closeBtn = event.target.closest('[data-cmd-close="1"]')
+      if (closeBtn) {
+        closeCommandInfo()
+        return
+      }
+      const infoBtn = event.target.closest('.cmd-info-btn')
+      if (!infoBtn) return
+      const row = allCommandsById.get(String(infoBtn.dataset.cmdid || ''))
+      openCommandInfo(row)
+    }
+
+    if (searchInput) searchInput.addEventListener('input', applyFilter)
+    if (typeFilter) typeFilter.addEventListener('change', applyFilter)
+    if (permissionFilter) permissionFilter.addEventListener('change', applyFilter)
+    applyFilter()
+  } catch (e) {
+    el.innerHTML = '<p style="color:var(--red);font-size:13px">Failed to load command list.</p>'
+  }
+}
+
+// ── Status ───────────────────────────────────────────────────────────────────
+async function loadStatus() {
+  try {
+    const data = await fetch('/api/status').then(r => r.json())
+    currentStatus = data
+
+    const connected = data.connected || data.qrStatus === 'connected'
+    const text = document.getElementById('navStatusText')
+    text.textContent = `v${data.version || '-'}`
+
+    const badge = document.getElementById('statusBadge')
+    badge.className = 'status-badge' + (connected ? ' online' : '')
+
+    const pic = document.getElementById('profilePic')
+    const emoji = document.getElementById('avatarEmoji')
+    if (data.profilePic) {
+      pic.src = data.profilePic
+      pic.style.display = ''
+      emoji.style.display = 'none'
+    } else {
+      pic.style.display = 'none'
+      emoji.style.display = ''
+    }
+
+    const statusPhone = getAccountPhone(data)
+    document.getElementById('statusName').textContent = getAccountName(data)
+    document.getElementById('statusNumber').textContent = statusPhone ? '+' + statusPhone : 'Not connected'
+    document.getElementById('statusUptime').textContent = formatUptime(data.uptime)
+
+    const meta = document.getElementById('statusMeta')
+    meta.innerHTML = `
+      <span class="status-meta-item ${connected ? 'online' : 'offline'}">${connected ? '🟢 Online' : '🔴 Offline'}</span>
+      <span class="status-meta-item">• ${data.commandMode === 'public' ? '🌐 Public' : '🔒 Private'}</span>
+    `
+
+  } catch(e) {
+    document.getElementById('navStatusText').textContent = 'v-'
+  }
+}
+
+// ── Settings ─────────────────────────────────────────────────────────────────
+function normalizePromoButtonForBuilder(button) {
+  if (!button || typeof button !== 'object') return null
+
+  if (button.name && button.buttonParamsJson) {
+    return {
+      name: button.name,
+      buttonParamsJson: button.buttonParamsJson
+    }
+  }
+
+  if (button.quickReplyButton || button.urlButton || button.callButton) return button
+
+  const legacyText = typeof button.buttonText === 'string'
+    ? button.buttonText
+    : (button.buttonText?.displayText || button.display_text || button.displayText || button.title || '')
+
+  if (button.buttonId || legacyText) {
+    return {
+      name: 'quick_reply',
+      buttonParamsJson: JSON.stringify({
+        display_text: legacyText || button.buttonId || 'Button',
+        id: button.buttonId || legacyText || 'button'
+      })
+    }
+  }
+
+  if (button.url || button.link) {
+    const targetUrl = String(button.url || button.link || '').trim()
+    if (!targetUrl) return null
+    return {
+      name: 'cta_url',
+      buttonParamsJson: JSON.stringify({
+        display_text: legacyText || 'Open Link',
+        url: targetUrl,
+        merchant_url: targetUrl
+      })
+    }
+  }
+
+  return null
+}
+
+function parsePromoButtonsForBuilder(rawButtons) {
+  if (rawButtons == null || rawButtons === '') return []
+
+  let parsed = rawButtons
+  if (typeof parsed === 'string') {
+    const trimmed = parsed.trim()
+    if (!trimmed) return []
+    try {
+      parsed = JSON.parse(trimmed)
+    } catch (_) {
+      return []
+    }
+  }
+
+  if (!Array.isArray(parsed)) return []
+  return parsed.map(normalizePromoButtonForBuilder).filter(Boolean)
+}
+
+function hydratePromoButtonRows(containerId, rawButtons) {
+  resetCcButtonRows(containerId)
+  const buttons = parsePromoButtonsForBuilder(rawButtons)
+  if (!buttons.length) return
+  buttons.forEach((button) => addCcButtonRow(containerId, button))
+}
+
+function addPromoButtonRow(containerId) {
+  addCcButtonRow(containerId)
+}
+
+function clearPromoButtonRows(containerId, fieldId) {
+  resetCcButtonRows(containerId)
+  const hiddenField = document.getElementById(fieldId)
+  if (hiddenField) hiddenField.value = ''
+}
+
+function syncPromoButtonsToField(containerId, fieldId, label) {
+  const hiddenField = document.getElementById(fieldId)
+  if (!hiddenField) return
+
+  const buttons = collectCcButtons(containerId)
+  hiddenField.value = buttons.length ? JSON.stringify(buttons) : ''
+}
+
+async function loadSettings() {
+  try {
+    const data = await fetch('/api/settings').then(r => r.json())
+    document.getElementById('botName').value = data.botName || ''
+    document.getElementById('botOwner').value = data.botOwner || ''
+    document.getElementById('author').value = data.author || ''
+    document.getElementById('ownerNumber').value = data.ownerNumber || '60123456789'
+    document.getElementById('commandMode').value = data.commandMode || 'public'
+    document.getElementById('commandReplyAsNormalMessage').checked = data.commandReplyAsNormalMessage !== false
+    const tzSelect = document.getElementById('timeZone')
+    const currentTz = data.timeZone || 'Asia/Kuala_Lumpur'
+    if (![...tzSelect.options].some((opt) => opt.value === currentTz)) {
+      const customOpt = document.createElement('option')
+      customOpt.value = currentTz
+      customOpt.textContent = `${currentTz} (Current)`
+      tzSelect.appendChild(customOpt)
+    }
+    tzSelect.value = currentTz
+    document.getElementById('packname').value = data.packname || ''
+    document.getElementById('description').value = data.description || ''
+    document.getElementById('aliveMessage').value = data.aliveMessage || ''
+    document.getElementById('aliveMediaUrl').value = data.aliveMediaUrl || ''
+    document.getElementById('aliveButtons').value = data.aliveButtons || ''
+    hydratePromoButtonRows('aliveButtonsBuilder', data.aliveButtons || '')
+    document.getElementById('menuMessage').value = data.menuMessage || ''
+    document.getElementById('menuMediaUrl').value = data.menuMediaUrl || ''
+    document.getElementById('menuButtons').value = data.menuButtons || ''
+    hydratePromoButtonRows('menuButtonsBuilder', data.menuButtons || '')
+  } catch(e) {}
+}
+
+async function saveSettings() {
+  try {
+    syncPromoButtonsToField('aliveButtonsBuilder', 'aliveButtons', 'Alive')
+    syncPromoButtonsToField('menuButtonsBuilder', 'menuButtons', 'Menu')
+  } catch (e) {
+    showToast(e.message || 'Invalid button configuration.', 'error')
+    return
+  }
+
+  const payload = {
+    botName: document.getElementById('botName').value.trim(),
+    botOwner: document.getElementById('botOwner').value.trim(),
+    author: document.getElementById('author').value.trim(),
+    ownerNumber: document.getElementById('ownerNumber').value.trim(),
+    commandMode: document.getElementById('commandMode').value,
+    commandReplyAsNormalMessage: document.getElementById('commandReplyAsNormalMessage').checked,
+    timeZone: document.getElementById('timeZone').value.trim(),
+    packname: document.getElementById('packname').value.trim(),
+    description: document.getElementById('description').value.trim(),
+    aliveMessage: document.getElementById('aliveMessage').value.trim(),
+    aliveMediaUrl: document.getElementById('aliveMediaUrl').value.trim(),
+    aliveButtons: document.getElementById('aliveButtons').value.trim(),
+    menuMessage: document.getElementById('menuMessage').value.trim(),
+    menuMediaUrl: document.getElementById('menuMediaUrl').value.trim(),
+    menuButtons: document.getElementById('menuButtons').value.trim(),
+  }
+  try {
+    const res = await fetch('/api/settings', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    }).then(r => r.json())
+    if (res.success) {
+      showToast(res.message || 'Settings saved')
+      if (res.restarting) {
+        setTimeout(() => {
+          loadStatus()
+          loadSettings()
+        }, 2500)
+      }
+    }
+    else showToast(res.error || 'Failed to save', 'error')
+  } catch(e) {
+    showToast('Network error', 'error')
+  }
+}
+
+// ── Logs ─────────────────────────────────────────────────────────────────────
+async function loadLogs() {
+  try {
+    const logs = await fetch('/api/logs').then(r => r.json())
+    const container = document.getElementById('logContainer')
+    if (!logs.length) {
+      container.innerHTML = '<div class="log-empty">No logs yet...</div>'
+      return
+    }
+    container.innerHTML = logs.map(l => `
+      <div class="log-entry log-${l.level}">
+        <span class="log-time">${formatTime(l.time)}</span>
+        <span class="log-msg">${escapeHtml(l.msg)}</span>
+      </div>
+    `).join('')
+  } catch(e) {}
+}
+
+function escapeHtml(s) {
+  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+}
+
+// ── Sidebar drawer ────────────────────────────────────────────────────────────
+function openSidebar() {
+  document.getElementById('sidebar').classList.add('open')
+  document.getElementById('sidebarOverlay').classList.add('active')
+}
+
+function closeSidebar() {
+  document.getElementById('sidebar').classList.remove('open')
+  document.getElementById('sidebarOverlay').classList.remove('active')
+}
+
+// ── Groups ────────────────────────────────────────────────────────────────────
+async function loadGroups() {
+  const el = document.getElementById('groupsContent')
+  el.innerHTML = '<p style="color:var(--text-dim);font-size:13px">Loading...</p>'
+  try {
+    const groups = await fetch('/api/groups').then(r => r.json())
+    if (groups && groups.success === false) {
+      el.innerHTML = `<p style="color:var(--red);font-size:13px">${escapeHtml(groups.error || 'Failed to load groups')}</p>`
+      return
+    }
+    if (!groups || !groups.length) {
+      el.innerHTML = `
+        <div style="text-align:center;padding:32px 0;color:var(--text-dim)">
+          <div style="font-size:40px;margin-bottom:12px">👥</div>
+          <div style="font-size:14px;font-weight:500;color:var(--text)">No groups found</div>
+          <div style="font-size:13px;margin-top:6px">Connect the bot to WhatsApp to see joined groups here.</div>
+        </div>`
+      return
+    }
+    el.innerHTML = `
+      <p style="font-size:13px;color:var(--text-dim);margin-bottom:14px">${groups.length} group${groups.length !== 1 ? 's' : ''} joined</p>
+      <div style="display:flex;flex-direction:column;gap:8px">
+        ${groups.map(g => `
+          <div style="background:var(--surface2);border-radius:8px;padding:12px 14px;border:1px solid var(--border)">
+            <div style="font-weight:600;font-size:14px;color:var(--text);margin-bottom:6px">👥 ${escapeHtml(g.name)}</div>
+            <div style="display:flex;gap:12px;flex-wrap:wrap;font-size:12px;color:var(--text-dim)">
+              <span>💬 ${g.messages} messages</span>
+              <span>👤 ${g.members} members</span>
+              <span>${g.admin ? '👑 Admin' : '👶 Member'}</span>
+            </div>
+          </div>`).join('')}
+      </div>`
+  } catch(e) {
+    el.innerHTML = '<p style="color:var(--red);font-size:13px">Failed to load groups.</p>'
+  }
+}
+
+// ── Schedules ────────────────────────────────────────────────────────────────
+let scheduleChatCache = []
+
+function getScheduleTargetMode() {
+  const mode = String(document.getElementById('scheduleTargetMode')?.value || 'group').trim().toLowerCase()
+  if (mode === 'personal' || mode === 'manual') return mode
+  return 'group'
+}
+
+function normalizeScheduleChatId(raw, mode = 'manual') {
+  const value = String(raw || '').trim()
+  if (!value) return ''
+  if (value.includes('@')) return value
+  if (mode === 'group') return value.endsWith('@g.us') ? value : ''
+  const digits = value.replace(/[^0-9]/g, '')
+  return digits ? `${digits}@s.whatsapp.net` : ''
+}
+
+function toggleScheduleTargetMode() {
+  const mode = getScheduleTargetMode()
+  const label = document.getElementById('scheduleTargetLabel')
+  const selectWrap = document.getElementById('scheduleTargetSelectWrap')
+  const manualWrap = document.getElementById('scheduleManualWrap')
+  const sel = document.getElementById('scheduleChatId')
+
+  if (mode === 'manual') {
+    if (label) label.textContent = 'Target Chat'
+    if (selectWrap) selectWrap.style.display = 'none'
+    if (manualWrap) manualWrap.style.display = ''
+    return
+  }
+
+  if (label) label.textContent = mode === 'personal' ? 'Target Personal' : 'Target Group'
+  if (selectWrap) selectWrap.style.display = ''
+  if (manualWrap) manualWrap.style.display = 'none'
+
+  const filtered = scheduleChatCache.filter((c) => c.type === mode)
+  if (!filtered.length) {
+    sel.innerHTML = `<option value="">No ${mode} chat available</option>`
+    return
+  }
+
+  sel.innerHTML = filtered.map((item) => `<option value="${escapeHtml(item.id)}">${escapeHtml(item.name)} (${escapeHtml(item.id)})</option>`).join('')
+}
+
+function toggleScheduleDateField() {
+  const type = document.getElementById('scheduleType').value
+  document.getElementById('scheduleDateWrap').style.display = type === 'once' ? '' : 'none'
+}
+
+function formatDateTime(ts) {
+  if (!ts) return '-'
+  const d = new Date(ts)
+  if (Number.isNaN(d.getTime())) return '-'
+  return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')} ${String(d.getHours()).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')}`
+}
+
+async function loadScheduleTargets() {
+  const sel = document.getElementById('scheduleChatId')
+  try {
+    const chats = await fetch('/api/chats').then(r => r.json())
+    scheduleChatCache = Array.isArray(chats)
+      ? chats
+          .filter((item) => item && (item.type === 'group' || item.type === 'personal') && item.id)
+          .map((item) => ({
+            id: String(item.id),
+            type: item.type === 'personal' ? 'personal' : 'group',
+            name: String(item.name || item.id),
+          }))
+      : []
+
+    if (!scheduleChatCache.length) {
+      sel.innerHTML = '<option value="">No chat available</option>'
+      return
+    }
+    toggleScheduleTargetMode()
+  } catch (e) {
+    sel.innerHTML = '<option value="">Failed to load chat list</option>'
+  }
+}
+
+async function loadSchedules(withGroups = false) {
+  if (withGroups) await loadScheduleTargets()
+  const el = document.getElementById('schedulesContent')
+  el.innerHTML = '<p style="color:var(--text-dim);font-size:13px">Loading...</p>'
+  try {
+    const schedules = await fetch('/api/schedules').then(r => r.json())
+    if (schedules && schedules.success === false) {
+      el.innerHTML = `<p style="color:var(--red);font-size:13px">${escapeHtml(schedules.error || 'Failed to load schedules')}</p>`
+      return
+    }
+    if (!Array.isArray(schedules) || !schedules.length) {
+      el.innerHTML = '<p style="color:var(--text-dim);font-size:13px">Belum ada scheduled chat.</p>'
+      return
+    }
+
+    const chatName = (chatId) => {
+      const found = scheduleChatCache.find(c => c.id === chatId)
+      return found ? found.name : chatId
+    }
+
+    const chatIcon = (chatId) => {
+      if (String(chatId || '').endsWith('@g.us')) return '👥'
+      if (String(chatId || '').endsWith('@s.whatsapp.net') || String(chatId || '').endsWith('@lid')) return '👤'
+      return '💬'
+    }
+
+    const grouped = schedules.reduce((acc, item) => {
+      const key = item.chatId || 'unknown'
+      if (!acc[key]) acc[key] = []
+      acc[key].push(item)
+      return acc
+    }, {})
+
+    const groupIds = Object.keys(grouped).sort((a, b) => {
+      const aFirst = grouped[a][0] ? Number(grouped[a][0].nextRunAt || 0) : Number.MAX_SAFE_INTEGER
+      const bFirst = grouped[b][0] ? Number(grouped[b][0].nextRunAt || 0) : Number.MAX_SAFE_INTEGER
+      return aFirst - bFirst
+    })
+
+    const renderRows = (list) => list.map(s => `
+      <tr class="list-row">
+        <td style="padding:10px">#${s.id}</td>
+        <td style="padding:10px">${s.type === 'daily' ? 'Daily' : 'Once'}</td>
+        <td style="padding:10px">${escapeHtml(s.nextRunText || formatDateTime(s.nextRunAt))}</td>
+        <td style="padding:10px;max-width:320px">${escapeHtml((s.message || '').slice(0, 80))}${(s.message || '').length > 80 ? '…' : ''}</td>
+        <td style="padding:10px;text-align:right;white-space:nowrap">
+          <button class="btn btn-outline btn-sm" style="margin-right:6px" onclick="editSchedule(${s.id})">✏️ Edit</button>
+          <button class="btn btn-sm" style="background:rgba(248,81,73,.15);color:var(--red);border:1px solid rgba(248,81,73,.4)" onclick="deleteScheduleItem(${s.id})">🗑️ Delete</button>
+        </td>
+      </tr>
+    `).join('')
+
+    el.innerHTML = groupIds.map(chatId => {
+      const rows = grouped[chatId] || []
+      return `
+        <div class="card list-frame" style="margin-bottom:14px;padding:0;overflow:hidden">
+          <div class="list-head">
+            <div style="font-weight:700">${chatIcon(chatId)} ${escapeHtml(chatName(chatId))}</div>
+            <div style="font-size:12px;color:var(--text-dim)">${rows.length} schedule</div>
+          </div>
+          <div style="overflow-x:auto">
+            <table class="list-table" style="width:100%;border-collapse:collapse;font-size:13px">
+              <thead>
+                <tr class="list-head-row">
+                  <th style="text-align:left;padding:8px 10px;color:var(--text-dim)">ID</th>
+                  <th style="text-align:left;padding:8px 10px;color:var(--text-dim)">Type</th>
+                  <th style="text-align:left;padding:8px 10px;color:var(--text-dim)">Time</th>
+                  <th style="text-align:left;padding:8px 10px;color:var(--text-dim)">Message</th>
+                  <th style="text-align:right;padding:8px 10px;color:var(--text-dim)">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                ${renderRows(rows)}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      `
+    }).join('')
+  } catch (e) {
+    el.innerHTML = '<p style="color:var(--red);font-size:13px">Failed to load schedules.</p>'
+  }
+}
+
+async function addSchedule() {
+  const mode = getScheduleTargetMode()
+  const selectedChatId = document.getElementById('scheduleChatId').value
+  const manualRaw = document.getElementById('scheduleManualChatId').value
+  const chatId = mode === 'manual'
+    ? normalizeScheduleChatId(manualRaw, 'manual')
+    : normalizeScheduleChatId(selectedChatId, mode)
+  const type = document.getElementById('scheduleType').value
+  const date = document.getElementById('scheduleDate').value
+  const time = document.getElementById('scheduleTime').value
+  const message = document.getElementById('scheduleMessage').value.trim()
+
+  if (!chatId) return showToast('Pilih target chat dulu.', 'error')
+  if (!time) return showToast('Masa diperlukan.', 'error')
+  if (!message) return showToast('Mesej tak boleh kosong.', 'error')
+  if (type === 'once' && !date) return showToast('Tarikh diperlukan untuk once.', 'error')
+
+  const payload = { chatId, type, time, message }
+  if (type === 'once') payload.date = date
+
+  try {
+    const res = await fetch('/api/schedules', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    }).then(r => r.json())
+
+    if (!res.success) return showToast(res.error || 'Gagal tambah schedule.', 'error')
+
+    showToast('Schedule berjaya ditambah.')
+    document.getElementById('scheduleMessage').value = ''
+    if (mode === 'manual') document.getElementById('scheduleManualChatId').value = ''
+    if (type === 'once') document.getElementById('scheduleDate').value = ''
+    document.getElementById('scheduleTime').value = ''
+    loadSchedules()
+  } catch (e) {
+    showToast('Network error', 'error')
+  }
+}
+
+async function editSchedule(id) {
+  try {
+    const schedules = await fetch('/api/schedules').then(r => r.json())
+    const item = Array.isArray(schedules) ? schedules.find(s => Number(s.id) === Number(id)) : null
+    if (!item) return showToast('Schedule tak dijumpai.', 'error')
+
+    const newMessage = prompt('Edit message:', item.message || '')
+    if (newMessage === null) return
+    const trimmedMessage = newMessage.trim()
+    if (!trimmedMessage) return showToast('Mesej tak boleh kosong.', 'error')
+
+    let payload = {
+      chatId: item.chatId,
+      type: item.type,
+      message: trimmedMessage,
+      time: item.time
+    }
+
+    if (item.type === 'once') {
+      const newDate = prompt('Edit date (YYYY-MM-DD):', item.date || '')
+      if (newDate === null) return
+      const newTime = prompt('Edit time (HH:MM):', item.time || '')
+      if (newTime === null) return
+      payload.date = (newDate || '').trim()
+      payload.time = (newTime || '').trim()
+    } else {
+      const newTime = prompt('Edit time (HH:MM):', item.time || '')
+      if (newTime === null) return
+      payload.time = (newTime || '').trim()
+    }
+
+    const res = await fetch('/api/schedules/' + id, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    }).then(r => r.json())
+
+    if (!res.success) return showToast(res.error || 'Gagal update schedule.', 'error')
+    showToast('Schedule berjaya dikemaskini.')
+    loadSchedules()
+  } catch (e) {
+    showToast('Network error', 'error')
+  }
+}
+
+async function deleteScheduleItem(id) {
+  if (!confirm(`Padam schedule #${id}?`)) return
+  try {
+    const res = await fetch('/api/schedules/' + id, { method: 'DELETE' }).then(r => r.json())
+    if (!res.success) return showToast(res.error || 'Gagal padam schedule.', 'error')
+    showToast('Schedule dipadam.')
+    loadSchedules()
+  } catch (e) {
+    showToast('Network error', 'error')
+  }
+}
+
+// ── Features ─────────────────────────────────────────────────────────────────
+async function loadFeatures() {
+  try {
+    const f = await fetch('/api/features').then(r => r.json())
+    const features = [
+      { key: 'autoStatus', label: 'Auto Status View', desc: 'Automatically view WhatsApp statuses' },
+      { key: 'autoRead', label: 'Auto Read', desc: 'Automatically mark messages as read' },
+      { key: 'autoTyping', label: 'Auto Typing', desc: 'Show typing indicator while processing' },
+      { key: 'antiDelete', label: 'Anti Delete', desc: 'Recover deleted messages in groups' },
+    ]
+    document.getElementById('featuresContent').innerHTML = features.map(feat => `
+      <div class="toggle-row">
+        <div class="toggle-info">
+          <div>${feat.label}</div>
+          <small style="color:var(--text-dim)">${feat.desc}</small>
+        </div>
+        <label class="toggle">
+          <input type="checkbox" id="toggle-${feat.key}" ${f[feat.key] ? 'checked' : ''} onchange="toggleFeature('${feat.key}', this.checked)">
+          <span class="slider"></span>
+        </label>
+      </div>
+    `).join('')
+  } catch(e) {}
+}
+
+async function toggleFeature(key, enabled) {
+  const checkbox = document.getElementById('toggle-' + key)
+  if (checkbox) checkbox.disabled = true
+  try {
+    const res = await fetch('/api/features/toggle', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ key, enabled })
+    }).then(r => r.json())
+    if (!res.success) {
+      alert('Failed to toggle feature: ' + (res.error || 'Unknown error'))
+      if (checkbox) checkbox.checked = !enabled
+    }
+  } catch(e) {
+    alert('Error toggling feature.')
+    if (checkbox) checkbox.checked = !enabled
+  } finally {
+    if (checkbox) checkbox.disabled = false
+  }
+}
+
+// ── Banned ────────────────────────────────────────────────────────────────────
+async function loadBanned() {
+  try {
+    const list = await fetch('/api/banned').then(r => r.json())
+    const el = document.getElementById('bannedContent')
+    if (!list.length) {
+      el.innerHTML = '<p style="color:var(--text-dim);font-size:13px">No banned users. 🎉</p>'
+      return
+    }
+    el.innerHTML = `
+      <p style="font-size:13px;color:var(--text-dim);margin-bottom:12px">${list.length} banned user${list.length !== 1 ? 's' : ''}</p>
+      <div style="display:flex;flex-wrap:wrap;gap:8px">
+        ${list.map(n => `<span class="badge badge-red">🚫 ${n}</span>`).join('')}
+      </div>
+      <p style="font-size:12px;color:var(--text-dim);margin-top:12px">Use <code style="background:var(--surface2);padding:1px 5px;border-radius:3px">.unban @user</code> in WhatsApp to remove bans.</p>
+    `
+  } catch(e) {}
+}
+
+// ── Session ───────────────────────────────────────────────────────────────────
+let qrPollTimer = null
+
+function fmtAge(ms) {
+  if (!ms) return '—'
+  const s = Math.floor((Date.now() - ms) / 1000)
+  if (s < 60) return `${s}s ago`
+  if (s < 3600) return `${Math.floor(s/60)}m ago`
+  if (s < 86400) return `${Math.floor(s/3600)}h ${Math.floor((s%3600)/60)}m ago`
+  return `${Math.floor(s/86400)}d ago`
+}
+
+function fmtUptime(s) {
+  s = Math.floor(s)
+  if (s < 60) return `${s}s`
+  if (s < 3600) return `${Math.floor(s/60)}m ${s%60}s`
+  return `${Math.floor(s/3600)}h ${Math.floor((s%3600)/60)}m`
+}
+
+function infoRow(label, value, valueColor) {
+  return `<div style="display:flex;justify-content:space-between;align-items:center;padding:9px 0;border-bottom:1px solid var(--border)">
+    <span style="font-size:12px;color:var(--text-dim);text-transform:uppercase;letter-spacing:.5px">${label}</span>
+    <span style="font-size:13px;font-weight:600;color:${valueColor||'var(--text)'}">${value}</span>
+  </div>`
+}
+
+function getAccountName(status) {
+  const account = status?.account || {}
+  return account.name || account.notify || account.pushName || status?.accountName || status?.botName || 'Ilussion Bot'
+}
+
+function getAccountPhone(status) {
+  const account = status?.account || {}
+  const normalized = String(status?.accountPhone || account.phone || '').replace(/\D/g, '')
+  if (normalized) return normalized
+
+  const rawCandidates = [account.id, account.jid, account.lid]
+  for (const rawValue of rawCandidates) {
+    const raw = String(rawValue || '').trim()
+    if (!raw) continue
+    const base = raw.includes(':') ? raw.split(':')[0] : raw.split('@')[0]
+    const digits = base.replace(/\D/g, '')
+    if (digits) return digits
+  }
+  return ''
+}
+
+async function loadSession() {
+  try {
+    const [qrData, status] = await Promise.all([
+      fetch('/api/session/qr').then(r => r.json()),
+      fetch('/api/status').then(r => r.json())
+    ])
+
+    // ── QR Panel ──────────────────────────────────────────────────────────────
+    const elConn    = document.getElementById('qrConnected')
+    const elWait    = document.getElementById('qrWaiting')
+    const elImgWrap = document.getElementById('qrImageWrap')
+    const elDef     = document.getElementById('qrDefault')
+
+    ;[elConn, elWait, elImgWrap, elDef].forEach(el => el.style.display = 'none')
+
+    if (qrData.status === 'connected' || status.connected) {
+      elConn.style.display = ''
+      stopQrPoll()
+      // Populate connected account box
+      const acct = document.getElementById('qrConnectedAccount')
+      if (status.account) {
+        const num = getAccountPhone(status)
+        const name = getAccountName(status)
+        acct.innerHTML =
+          `<div><b>📱 ${name || 'Unknown'}</b></div>` +
+          `<div style="color:var(--text-dim)">${num ? '+' + num : '—'}</div>` +
+          `<div style="margin-top:4px;font-size:12px;color:var(--text-dim)">Uptime: ${fmtUptime(status.uptime)}</div>`
+      } else {
+        acct.innerHTML = `<span style="color:var(--text-dim);font-size:12px">Account info loading...</span>`
+      }
+    } else if (qrData.status === 'pending' && qrData.qr) {
+      elImgWrap.style.display = ''
+      document.getElementById('qrImage').src = qrData.qr
+      const age  = Math.floor((Date.now() - qrData.timestamp) / 1000)
+      const left = Math.max(0, 60 - age)
+      document.getElementById('qrExpiry').textContent = left > 0
+        ? `⏱ Expires in ~${left}s` : '⚠️ QR may have expired. Click Refresh.'
+      startQrPoll()
+    } else if (qrData.status === 'resetting') {
+      elWait.style.display = ''
+      startQrPoll()
+    } else {
+      elDef.style.display = ''
+      startQrPoll()
+    }
+
+    // ── Session Info Grid ─────────────────────────────────────────────────────
+    const grid = document.getElementById('sessionInfoGrid')
+    const connStatus = (status.connected || qrData.status === 'connected')
+    const statusBadge = connStatus
+      ? `<span style="color:var(--green)">● Connected</span>`
+      : `<span style="color:var(--red)">● Disconnected</span>`
+
+    const platformBadge = status.platform === 'Railway'
+      ? `<span style="color:#c792ea">🚂 Railway</span>`
+      : status.platform === 'Replit'
+        ? `<span style="color:#56b6c2">♟ Replit</span>`
+        : `<span style="color:var(--text-dim)">💻 Local</span>`
+
+    const sessionEnvBadge = status.hasSessionEnv
+      ? `<span style="color:var(--green)">✓ Set</span>`
+      : `<span style="color:var(--text-dim)">— Not set</span>`
+
+    const parsedPhone = getAccountPhone(status)
+    const num = parsedPhone ? '+' + parsedPhone : '—'
+    const name = getAccountName(status) || '—'
+
+    grid.innerHTML =
+      infoRow('Status', statusBadge) +
+      infoRow('Phone Number', num, 'var(--text)') +
+      infoRow('Account Name', name, 'var(--text)') +
+      infoRow('Platform', platformBadge) +
+      infoRow('SESSION_ID Env', sessionEnvBadge) +
+      infoRow('Session Updated', fmtAge(status.sessionMtime), 'var(--text-dim)') +
+      infoRow('Bot Uptime', fmtUptime(status.uptime), 'var(--text-dim)')
+
+  } catch(e) {
+    document.getElementById('sessionInfoGrid').innerHTML =
+      `<div style="font-size:13px;color:var(--red);padding:8px 0">⚠️ Failed to load session info</div>`
+  }
+}
+
+function startQrPoll() {
+  if (qrPollTimer) return
+  qrPollTimer = setInterval(loadSession, 4000)
+}
+
+function stopQrPoll() {
+  if (qrPollTimer) { clearInterval(qrPollTimer); qrPollTimer = null }
+}
+
+function confirmReset() {
+  document.getElementById('confirmModal').style.display = 'flex'
+}
+
+function closeModal() {
+  document.getElementById('confirmModal').style.display = 'none'
+}
+
+async function doReset() {
+  closeModal()
+  try {
+    const res = await fetch('/api/session/reset', { method: 'POST' }).then(r => r.json())
+    if (res.success) {
+      showToast('Session cleared. Waiting for QR...', 'success')
+      // Switch QR panel to waiting state immediately
+      document.getElementById('qrConnected').style.display = 'none'
+      document.getElementById('qrImageWrap').style.display = 'none'
+      document.getElementById('qrDefault').style.display = 'none'
+      document.getElementById('qrWaiting').style.display = ''
+      startQrPoll()
+    } else {
+      showToast(res.error || 'Reset failed', 'error')
+    }
+  } catch(e) {
+    showToast('Network error', 'error')
+  }
+}
+
+// ── Custom Commands ───────────────────────────────────────────────────────────
+function normalizeCcCategory(category) {
+  const raw = String(category || '').trim()
+  return raw || 'General'
+}
+
+function openCcGuideModal() {
+  document.getElementById('ccGuideModal').style.display = 'flex'
+}
+
+function closeCcGuideModal() {
+  document.getElementById('ccGuideModal').style.display = 'none'
+}
+
+async function loadCustomCommands() {
+  try {
+    const cmds = await fetch('/api/custom-commands').then(r => r.json())
+    window.ccCommandsCache = Array.isArray(cmds) ? cmds : []
+    window.ccRenderedCommands = []
+    const el = document.getElementById('ccList')
+    const stats = document.getElementById('ccStats')
+    stats.textContent = `${cmds.length} custom command${cmds.length !== 1 ? 's' : ''} saved`
+
+    if (!cmds.length) {
+      el.innerHTML = '<p style="color:var(--text-dim);font-size:13px;padding:10px 2px">No custom commands yet. Add one above! 👆</p>'
+      return
+    }
+
+    const grouped = cmds.reduce((acc, cmd) => {
+      const key = normalizeCcCategory(cmd.category)
+      if (!acc[key]) acc[key] = []
+      acc[key].push(cmd)
+      return acc
+    }, {})
+    const categories = Object.keys(grouped).sort((a, b) => a.localeCompare(b))
+    el.innerHTML = categories.map((category) => {
+      const rows = grouped[category].map(c => {
+        const cmdIndex = window.ccRenderedCommands.push(c) - 1
+        const desc = c.description ? escapeHtml(c.description) : '<span style="color:var(--text-dim);font-style:italic">—</span>'
+        return `
+          <tr>
+            <td style="white-space:nowrap">
+              <span class="cc-trigger-chip">${escapeHtml(c.trigger)}</span>
+            </td>
+            <td style="color:var(--text-dim)">${desc}</td>
+            <td style="text-align:right;white-space:nowrap;position:relative">
+              <select class="cc-action-select" onchange="handleCcActionSelect(this, ${cmdIndex})">
+                <option value="">Select</option>
+                <option value="view">👁 View</option>
+                <option value="edit">✏️ Edit</option>
+                <option value="delete" class="action-select-delete">🗑 Delete</option>
+              </select>
+            </td>
+          </tr>`
+      }).join('')
+
+      return `
+        <div class="cc-list-card">
+          <div class="cc-list-head">
+            <span class="cc-list-head-title">📁 ${escapeHtml(category)}</span>
+            <span class="badge badge-yellow">${grouped[category].length} command${grouped[category].length !== 1 ? 's' : ''}</span>
+          </div>
+          <div style="overflow-x:auto">
+            <table class="cc-list-table">
+              <thead>
+                <tr>
+                  <th style="white-space:nowrap">Trigger</th>
+                  <th>Description</th>
+                  <th style="white-space:nowrap;text-align:right">Action</th>
+                </tr>
+              </thead>
+              <tbody>${rows}</tbody>
+            </table>
+          </div>
+        </div>
+      `
+    }).join('')
+  } catch(e) {
+    document.getElementById('ccList').innerHTML = '<p style="color:var(--red);font-size:13px">Failed to load commands.</p>'
+  }
+}
+
+function handleCcActionSelect(selectEl, index) {
+  const action = (selectEl.value || '').toLowerCase()
+  if (!action) return
+
+  if (action === 'view') openCcViewModalByIndex(index)
+  else if (action === 'edit') openCcEditModalByIndex(index)
+  else if (action === 'delete') deleteCustomCommandByIndex(index)
+
+  selectEl.value = ''
+}
+
+function openCcViewModal(trigger, response, description, category, mediaUrl, mediaType, _fileName, buttons) {
+  document.getElementById('ccViewTriggerLabel').textContent = trigger || ''
+  document.getElementById('ccViewDescription').textContent = description || '—'
+  document.getElementById('ccViewCategory').textContent = category || 'General'
+  document.getElementById('ccViewMediaType').textContent = mediaType || 'text'
+  document.getElementById('ccViewMediaUrl').textContent = mediaUrl || '—'
+  document.getElementById('ccViewResponse').textContent = (response || '').replace(/\\n/g, '\n') || '—'
+  let parsedButtons = []
+  try {
+    parsedButtons = buttons ? JSON.parse(buttons) : []
+  } catch (_) {
+    parsedButtons = []
+  }
+  document.getElementById('ccViewButtons').textContent = String(Array.isArray(parsedButtons) ? parsedButtons.length : 0)
+  document.getElementById('ccViewModal').style.display = 'flex'
+}
+
+function getCcCommandByIndex(index) {
+  const list = Array.isArray(window.ccRenderedCommands) ? window.ccRenderedCommands : []
+  return list[index] || null
+}
+
+function openCcViewModalByIndex(index) {
+  const cmd = getCcCommandByIndex(index)
+  if (!cmd) return
+  openCcViewModal(
+    cmd.trigger || '',
+    cmd.response || '',
+    cmd.description || '',
+    cmd.category || 'General',
+    cmd.mediaUrl || '',
+    cmd.mediaType || '',
+    cmd.fileName || '',
+    JSON.stringify(cmd.buttons || [])
+  )
+}
+
+function openCcEditModalByIndex(index) {
+  const cmd = getCcCommandByIndex(index)
+  if (!cmd) return
+  openCcEditModal(
+    cmd.trigger || '',
+    cmd.response || '',
+    cmd.description || '',
+    cmd.category || 'General',
+    cmd.mediaUrl || '',
+    cmd.mediaType || '',
+    cmd.fileName || '',
+    JSON.stringify(cmd.buttons || [])
+  )
+}
+
+function deleteCustomCommandByIndex(index) {
+  const cmd = getCcCommandByIndex(index)
+  if (!cmd || !cmd.trigger) return
+  deleteCustomCommand(cmd.trigger)
+}
+
+function closeCcViewModal() {
+  document.getElementById('ccViewModal').style.display = 'none'
+}
+
+function escapeAttr(s) {
+  return String(s).replace(/\\/g, '\\\\').replace(/'/g, '\\x27').replace(/"/g, '\\x22')
+}
+
+// ── Media source helpers ───────────────────────────────────────────────────
+function toggleMediaFields() {
+  const rawType = document.getElementById('ccMediaType').value
+  const type = rawType || 'text'
+  const hasSelection = true
+  const isText = type === 'text'
+  const isUrl = type === 'url'
+  const hasMedia = hasSelection && !isText
+
+  document.getElementById('ccComposeFields').style.display = hasSelection ? '' : 'none'
+  document.getElementById('ccResponseWrap').style.display = hasSelection ? '' : 'none'
+  document.getElementById('ccButtonsWrap').style.display = hasSelection ? '' : 'none'
+  document.getElementById('ccMediaSection').style.display = hasMedia ? '' : 'none'
+  document.getElementById('ccMediaUrlWrap').style.display = hasMedia ? '' : 'none'
+  document.getElementById('ccFileNameWrap').style.display = type === 'document' ? '' : 'none'
+
+  const responseLabel = document.getElementById('ccResponseLabel')
+  const mediaHeading = document.getElementById('ccMediaHeading')
+  const buttonsLabel = document.getElementById('ccButtonsLabel')
+  const categoryLabel = document.getElementById('ccCategoryLabel')
+  const descriptionLabel = document.getElementById('ccDescriptionLabel')
+
+  if (isText) {
+    responseLabel.textContent = 'Text'
+    if (buttonsLabel) buttonsLabel.innerHTML = 'Buttons <span style="color:var(--text-dim)">(optional)</span>'
+    if (categoryLabel) categoryLabel.textContent = 'Category'
+    if (descriptionLabel) descriptionLabel.innerHTML = 'Description <span style="color:var(--text-dim)">(optional)</span>'
+    document.getElementById('ccResponse').placeholder = 'Tulis text command...'
+  } else if (hasMedia) {
+    if (mediaHeading) mediaHeading.textContent = 'Media Attachment'
+    responseLabel.textContent = 'Caption (optional)'
+    if (buttonsLabel) buttonsLabel.innerHTML = 'Buttons <span style="color:var(--text-dim)">(optional)</span>'
+    if (categoryLabel) categoryLabel.textContent = 'Category'
+    if (descriptionLabel) descriptionLabel.innerHTML = 'Description <span style="color:var(--text-dim)">(optional)</span>'
+    document.getElementById('ccResponse').placeholder = type === 'url' ? 'Check this out 👇 (optional caption)' : 'Caption untuk media (optional)'
+  } else {
+    if (buttonsLabel) buttonsLabel.innerHTML = 'Buttons <span style="color:var(--text-dim)">(optional)</span>'
+    if (categoryLabel) categoryLabel.textContent = 'Category'
+    if (descriptionLabel) descriptionLabel.innerHTML = 'Description <span style="color:var(--text-dim)">(optional)</span>'
+  }
+
+  document.querySelectorAll('#ccTypeIcons .cc-type-btn').forEach((btn) => {
+    btn.classList.toggle('active', btn.dataset.type === type)
+  })
+
+  const srcToggle = document.getElementById('ccMediaSourceWrap')
+  if (srcToggle) srcToggle.style.display = isUrl ? 'none' : ''
+
+  if (!hasMedia) {
+    document.getElementById('ccMediaUrl').value = ''
+    document.getElementById('ccUploadedUrl').value = ''
+    document.getElementById('ccMediaFile').value = ''
+    document.getElementById('ccUploadProgress').style.display = 'none'
+    document.getElementById('ccDropText').style.display = ''
+    return
+  }
+
+  if (isUrl) {
+    document.getElementById('ccUrlInput').style.display = ''
+    document.getElementById('ccUploadInput').style.display = 'none'
+    document.getElementById('ccMediaUrl').placeholder = 'https://example.com/page'
+    document.getElementById('ccUploadedUrl').value = ''
+  } else {
+    const ph = { image: 'https://example.com/photo.jpg', video: 'https://example.com/video.mp4', audio: 'https://example.com/music.mp3', document: 'https://example.com/file.pdf' }
+    if (ph[type]) document.getElementById('ccMediaUrl').placeholder = ph[type]
+    if (document.getElementById('ccUploadInput').style.display !== '') {
+      setCcSource('upload')
+    }
+  }
+}
+
+function setCcComposerType(type) {
+  const allowed = ['text', 'image', 'video', 'audio', 'document', 'url']
+  const selected = allowed.includes(type) ? type : 'text'
+  document.getElementById('ccMediaType').value = selected
+  toggleMediaFields()
+}
+
+function setCcSource(mode) {
+  if ((document.getElementById('ccMediaType').value || '') === 'url') return
+  const isUpload = mode === 'upload'
+  document.getElementById('ccUrlInput').style.display = isUpload ? 'none' : ''
+  document.getElementById('ccUploadInput').style.display = isUpload ? '' : 'none'
+  const onStyle = 'border:1px solid var(--green);background:var(--green);color:#000'
+  const offStyle = 'border:1px solid var(--border);background:transparent;color:var(--text-dim)'
+  document.getElementById('ccSrcUrlBtn').style.cssText = `flex:1;padding:7px;border-radius:6px;font-size:12px;font-weight:600;cursor:pointer;${isUpload ? offStyle : onStyle}`
+  document.getElementById('ccSrcUploadBtn').style.cssText = `flex:1;padding:7px;border-radius:6px;font-size:12px;font-weight:600;cursor:pointer;${isUpload ? onStyle : offStyle}`
+  if (!isUpload) document.getElementById('ccUploadedUrl').value = ''
+}
+
+function toggleEditMediaFields() {
+  const type = document.getElementById('ccEditMediaType').value
+  document.getElementById('ccEditMediaUrlWrap').style.display = type ? '' : 'none'
+  document.getElementById('ccEditFileNameWrap').style.display = type === 'document' ? '' : 'none'
+}
+
+function setCcEditSource(mode) {
+  const isUpload = mode === 'upload'
+  document.getElementById('ccEditUrlInput').style.display = isUpload ? 'none' : ''
+  document.getElementById('ccEditUploadInput').style.display = isUpload ? '' : 'none'
+  const onStyle = 'border:1px solid var(--green);background:var(--green);color:#000'
+  const offStyle = 'border:1px solid var(--border);background:transparent;color:var(--text-dim)'
+  document.getElementById('ccEditSrcUrlBtn').style.cssText = `flex:1;padding:7px;border-radius:6px;font-size:12px;font-weight:600;cursor:pointer;${isUpload ? offStyle : onStyle}`
+  document.getElementById('ccEditSrcUploadBtn').style.cssText = `flex:1;padding:7px;border-radius:6px;font-size:12px;font-weight:600;cursor:pointer;${isUpload ? onStyle : offStyle}`
+  if (!isUpload) document.getElementById('ccEditUploadedUrl').value = ''
+}
+
+// ── Upload helpers ─────────────────────────────────────────────────────────
+async function uploadMediaFile(file, barId, statusId, progressId, hiddenId, dropTextId) {
+  document.getElementById(progressId).style.display = ''
+  document.getElementById(dropTextId).style.display = 'none'
+  document.getElementById(statusId).textContent = `Uploading ${file.name}…`
+  document.getElementById(barId).style.width = '30%'
+  try {
+    const fd = new FormData()
+    fd.append('file', file)
+    const res = await fetch('/api/upload-media', { method: 'POST', body: fd }).then(r => r.json())
+    if (res.success) {
+      document.getElementById(barId).style.width = '100%'
+      document.getElementById(statusId).textContent = `✅ ${res.originalName} uploaded`
+      document.getElementById(hiddenId).value = res.url
+      return res
+    } else {
+      document.getElementById(statusId).textContent = `❌ ${res.error}`
+      document.getElementById(barId).style.width = '0%'
+      return null
+    }
+  } catch (e) {
+    document.getElementById(statusId).textContent = '❌ Upload failed'
+    return null
+  }
+}
+
+function handleCcFileChange() {
+  const file = document.getElementById('ccMediaFile').files[0]
+  if (!file) return
+  uploadMediaFile(file, 'ccUploadBar', 'ccUploadStatus', 'ccUploadProgress', 'ccUploadedUrl', 'ccDropText')
+}
+
+function handleCcEditFileChange() {
+  const file = document.getElementById('ccEditMediaFile').files[0]
+  if (!file) return
+  uploadMediaFile(file, 'ccEditUploadBar', 'ccEditUploadStatus', 'ccEditUploadProgress', 'ccEditUploadedUrl', 'ccEditDropText')
+}
+
+function getButtonTypeMeta(type) {
+  switch (type) {
+    case 'url':
+      return {
+        targetLabel: 'URL',
+        placeholder: 'https://example.com',
+        extraLabel: '',
+        extraPlaceholder: '',
+        showTarget: true,
+        showExtra: false,
+        hint: 'Opens external link in WhatsApp.'
+      }
+    case 'call':
+      return {
+        targetLabel: 'Phone Number',
+        placeholder: '+628123456789',
+        extraLabel: '',
+        extraPlaceholder: '',
+        showTarget: true,
+        showExtra: false,
+        hint: 'Shows call action to a phone number.'
+      }
+    case 'whatsapp':
+      return {
+        targetLabel: 'WhatsApp Number',
+        placeholder: '628123456789',
+        extraLabel: '',
+        extraPlaceholder: '',
+        showTarget: true,
+        showExtra: false,
+        hint: 'Builds a WhatsApp link automatically.'
+      }
+    case 'copy':
+      return {
+        targetLabel: 'Copy Text / Link',
+        placeholder: 'https://github.com/atex-ovi',
+        extraLabel: '',
+        extraPlaceholder: '',
+        showTarget: true,
+        showExtra: false,
+        hint: 'Copies provided text/link to clipboard.'
+      }
+    case 'single_select':
+      return {
+        targetLabel: 'List Title',
+        placeholder: 'Select Option',
+        extraLabel: '',
+        extraPlaceholder: '',
+        showTarget: true,
+        showExtra: false,
+        hint: 'Creates WhatsApp list button with selectable rows.'
+      }
+    default:
+      return {
+        targetLabel: 'Button ID (optional)',
+        placeholder: '.menu',
+        extraLabel: '',
+        extraPlaceholder: '',
+        showTarget: true,
+        showExtra: false,
+        hint: 'Sends quick reply id back to bot.'
+      }
+  }
+}
+
+function buildRowsTextFromSections(sections = []) {
+  const lines = []
+  for (const section of sections) {
+    const rows = Array.isArray(section?.rows) ? section.rows : []
+    for (const row of rows) {
+      const id = row?.id || ''
+      const title = row?.title || ''
+      const desc = row?.description || ''
+      const header = row?.header || ''
+      if (!id && !title) continue
+      lines.push([id, title, desc, header].map((v) => String(v || '').replace(/\|/g, '/')).join('|'))
+    }
+  }
+  return lines.join('\n')
+}
+
+function parseSingleSelectRowsInput(raw) {
+  const lines = String(raw || '')
+    .split('\n')
+    .map((line) => line.trim())
+    .filter(Boolean)
+
+  const rows = []
+  for (const line of lines) {
+    const parts = line.split('|')
+    const id = (parts[0] || '').trim()
+    const title = (parts[1] || '').trim()
+    const description = (parts[2] || '').trim()
+    const header = (parts[3] || '').trim()
+
+    if (!id || !title) {
+      throw new Error('Single select rows must include id and title. Format: id|title|description|header')
+    }
+
+    rows.push({
+      id,
+      title,
+      ...(description ? { description } : {}),
+      ...(header ? { header } : {})
+    })
+  }
+
+  if (!rows.length) {
+    throw new Error('Single select button needs at least 1 row.')
+  }
+
+  return rows
+}
+
+function addCcButtonRow(containerId, button = {}) {
+  const container = document.getElementById(containerId)
+  if (!container) return
+
+  let parsed = {}
+  let type = 'quick_reply'
+  if (button && typeof button === 'object') {
+    if (button.quickReplyButton) {
+      type = 'quick_reply'
+      parsed = {
+        display_text: button.quickReplyButton.displayText || '',
+        id: button.quickReplyButton.id || ''
+      }
+    } else if (button.urlButton) {
+      const url = String(button.urlButton.url || '')
+      const waMatch = url.match(/^https?:\/\/wa\.me\/(\d+)/i)
+      type = waMatch ? 'whatsapp' : 'url'
+      parsed = {
+        display_text: button.urlButton.displayText || '',
+        url,
+        phone_number: waMatch ? waMatch[1] : ''
+      }
+    } else if (button.callButton) {
+      type = 'call'
+      parsed = {
+        display_text: button.callButton.displayText || '',
+        phone_number: button.callButton.phoneNumber || ''
+      }
+    } else if (button.buttonParamsJson) {
+      try {
+        parsed = JSON.parse(button.buttonParamsJson)
+        const rawName = String(button.name || 'quick_reply').toLowerCase()
+        if (rawName === 'cta_copy') type = 'copy'
+        else if (rawName === 'cta_call') type = 'call'
+        else if (rawName === 'cta_url') {
+          const url = String(parsed.url || parsed.merchant_url || '')
+          type = /^https?:\/\/wa\.me\//i.test(url) ? 'whatsapp' : 'url'
+        } else if (rawName === 'single_select') type = 'single_select'
+        else type = 'quick_reply'
+
+        if (rawName === 'single_select') {
+          parsed.rowsText = buildRowsTextFromSections(parsed.sections)
+        }
+      } catch (_) {
+        parsed = {}
+      }
+    } else {
+      parsed = button
+      type = button.name || parsed.type || 'quick_reply'
+    }
+  }
+
+  const meta = getButtonTypeMeta(type)
+  const currentTarget =
+    type === 'quick_reply' ? (parsed.id || parsed.buttonId || '') :
+    type === 'url' ? (parsed.url || parsed.link || '') :
+    type === 'whatsapp' ? (parsed.phone_number || parsed.phoneNumber || '') :
+    type === 'call' ? (parsed.phone_number || parsed.phoneNumber || '') :
+    type === 'copy' ? (parsed.copy_code || parsed.copyCode || '') :
+    type === 'single_select' ? (parsed.title || parsed.display_text || parsed.displayText || '') :
+    ''
+
+  const row = document.createElement('div')
+  row.className = 'cc-button-row'
+  row.innerHTML = `
+    <div style="display:grid;grid-template-columns:1.2fr .9fr 1.2fr auto;gap:8px;align-items:end">
+      <div class="form-group" style="margin:0">
+        <label>Button Name</label>
+        <input type="text" class="cc-button-label" placeholder="Click me" value="${escapeAttr(parsed.display_text || parsed.displayText || parsed.title || '')}" />
+      </div>
+      <div class="form-group" style="margin:0">
+        <label>Category</label>
+        <select class="cc-button-type" onchange="syncCcButtonRow(this)">
+          <option value="quick_reply">quick_reply</option>
+          <option value="url">cta_url</option>
+          <option value="call">cta_call</option>
+          <option value="copy">cta_copy</option>
+          <option value="single_select">single_select</option>
+          <option value="whatsapp">whatsapp shortcut</option>
+        </select>
+      </div>
+      <div class="form-group" style="margin:0">
+        <label class="cc-button-target-label">${meta.targetLabel}</label>
+        <input type="text" class="cc-button-target" placeholder="${meta.placeholder}" value="${escapeAttr(currentTarget)}" />
+      </div>
+      <button type="button" class="btn btn-sm" style="background:rgba(248,81,73,.15);color:var(--red);border:1px solid rgba(248,81,73,.4);height:38px" onclick="removeCcButtonRow(this)">Remove</button>
+    </div>
+    <div class="form-group cc-button-extra" style="margin:0;display:none">
+      <label class="cc-button-extra-label"></label>
+      <textarea class="cc-button-extra-input" placeholder=""></textarea>
+    </div>
+    <div class="cc-select-builder" style="display:none">
+      <div style="font-size:12px;font-weight:600;color:var(--text-dim);margin-bottom:8px;letter-spacing:.03em">📋 LIST OPTIONS</div>
+      <div style="margin-bottom:8px">
+        <label style="font-size:12px">Section Title <span style="color:var(--text-dim)">(optional)</span></label>
+        <input type="text" class="cc-section-title" placeholder="Options" style="margin-top:4px;font-size:12px;padding:6px 8px" />
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1.5fr 1.5fr 28px;gap:6px;margin-bottom:4px">
+        <span style="font-size:11px;color:var(--text-dim);padding-left:2px">ID</span>
+        <span style="font-size:11px;color:var(--text-dim);padding-left:2px">Title <span style="color:var(--red)">*</span></span>
+        <span style="font-size:11px;color:var(--text-dim);padding-left:2px">Description</span>
+        <span></span>
+      </div>
+      <div class="cc-select-rows" style="display:flex;flex-direction:column;gap:4px"></div>
+      <button type="button" class="btn btn-outline btn-sm" onclick="addCcSelectRow(this)" style="margin-top:8px;font-size:12px">+ Add Option</button>
+    </div>
+    <div class="cc-button-hint"></div>
+  `
+
+  container.appendChild(row)
+  const typeSelect = row.querySelector('.cc-button-type')
+  typeSelect.value = type
+
+  if (type === 'single_select' && parsed.sections) {
+    const section = parsed.sections[0] || {}
+    const sectionTitle = section.title || ''
+    row.querySelector('.cc-section-title').value = sectionTitle
+    const rows = Array.isArray(section.rows) ? section.rows : []
+    rows.forEach(r => addCcSelectRow(row.querySelector('.btn-outline.btn-sm[onclick]'), r))
+  }
+
+  syncCcButtonRow(typeSelect)
+}
+
+function removeCcButtonRow(buttonEl) {
+  const row = buttonEl.closest('.cc-button-row')
+  if (row) row.remove()
+}
+
+function syncCcButtonRow(selectEl) {
+  const row = selectEl.closest('.cc-button-row')
+  if (!row) return
+  const type = selectEl.value
+  const meta = getButtonTypeMeta(type)
+
+  const targetWrap = row.querySelector('.cc-button-target').closest('.form-group')
+  const targetLabel = row.querySelector('.cc-button-target-label')
+  const targetInput = row.querySelector('.cc-button-target')
+  targetLabel.textContent = meta.targetLabel
+  targetInput.placeholder = meta.placeholder
+  targetWrap.style.display = meta.showTarget ? '' : 'none'
+
+  const extraWrap = row.querySelector('.cc-button-extra')
+  const extraLabel = row.querySelector('.cc-button-extra-label')
+  const extraInput = row.querySelector('.cc-button-extra-input')
+  extraWrap.style.display = meta.showExtra ? '' : 'none'
+  extraLabel.textContent = meta.extraLabel
+  extraInput.placeholder = meta.extraPlaceholder
+
+  const selectBuilder = row.querySelector('.cc-select-builder')
+  if (selectBuilder) {
+    selectBuilder.style.display = type === 'single_select' ? '' : 'none'
+    if (type === 'single_select' && row.querySelectorAll('.cc-select-row').length === 0) {
+      addCcSelectRow(selectBuilder.querySelector('.btn-outline'))
+    }
+  }
+
+  row.querySelector('.cc-button-hint').textContent = meta.hint || ''
+}
+
+function addCcSelectRow(btnEl, prefill = {}) {
+  const builder = btnEl.closest('.cc-select-builder')
+  if (!builder) return
+  const container = builder.querySelector('.cc-select-rows')
+  const rowEl = document.createElement('div')
+  rowEl.className = 'cc-select-row'
+  const idVal = escapeAttr(prefill.id || '')
+  const titleVal = escapeAttr(prefill.title || '')
+  const descVal = escapeAttr(prefill.description || '')
+  rowEl.innerHTML = `
+    <input type="text" class="cc-sr-id" placeholder="option_1" value="${idVal}" title="ID (auto-filled if empty)" />
+    <input type="text" class="cc-sr-title" placeholder="Option title" value="${titleVal}" />
+    <input type="text" class="cc-sr-desc" placeholder="Description (optional)" value="${descVal}" />
+    <button type="button" title="Remove" onclick="this.closest('.cc-select-row').remove()" style="background:rgba(248,81,73,.15);color:var(--red);border:1px solid rgba(248,81,73,.3);border-radius:6px;cursor:pointer;font-size:13px;width:28px;height:28px;display:flex;align-items:center;justify-content:center;padding:0">✕</button>
+  `
+  container.appendChild(rowEl)
+}
+
+function collectCcSelectRows(row) {
+  const rows = []
+  row.querySelectorAll('.cc-select-row').forEach((el, idx) => {
+    const title = el.querySelector('.cc-sr-title').value.trim()
+    if (!title) return
+    const rawId = el.querySelector('.cc-sr-id').value.trim()
+    const id = rawId || title.toLowerCase().replace(/\s+/g, '_').replace(/[^\w-]/g, '') + '_' + (idx + 1)
+    const description = el.querySelector('.cc-sr-desc').value.trim()
+    rows.push({ id, title, ...(description ? { description } : {}) })
+  })
+  return rows
+}
+
+function resetCcButtonRows(containerId, buttons = []) {
+  const container = document.getElementById(containerId)
+  if (!container) return
+  container.innerHTML = ''
+  if (Array.isArray(buttons) && buttons.length) {
+    buttons.forEach((button) => addCcButtonRow(containerId, button))
+  }
+}
+
+function collectCcButtons(containerId) {
+  const container = document.getElementById(containerId)
+  if (!container) return []
+
+  const buttons = []
+  const rows = container.querySelectorAll('.cc-button-row')
+  for (const row of rows) {
+    const label = row.querySelector('.cc-button-label').value.trim()
+    const type = row.querySelector('.cc-button-type').value
+    const target = row.querySelector('.cc-button-target').value.trim()
+    const extra = row.querySelector('.cc-button-extra-input').value.trim()
+
+    if (!label && !target && !extra) continue
+    if (!label) throw new Error('Button name is required.')
+
+    const index = buttons.length + 1
+    if (type === 'quick_reply') {
+      buttons.push({
+        index,
+        name: 'quick_reply',
+        buttonParamsJson: JSON.stringify({
+          display_text: label,
+          id: target || label
+        })
+      })
+    } else if (type === 'url') {
+      if (!target) throw new Error('URL is required for cta_url button.')
+      buttons.push({
+        index,
+        name: 'cta_url',
+        buttonParamsJson: JSON.stringify({
+          display_text: label,
+          url: target,
+          merchant_url: target
+        })
+      })
+    } else if (type === 'call') {
+      if (!target) throw new Error('Phone number is required for cta_call button.')
+      buttons.push({
+        index,
+        name: 'cta_call',
+        buttonParamsJson: JSON.stringify({
+          display_text: label,
+          phone_number: target
+        })
+      })
+    } else if (type === 'copy') {
+      if (!target) throw new Error('Copy text/link is required for cta_copy button.')
+      buttons.push({
+        index,
+        name: 'cta_copy',
+        buttonParamsJson: JSON.stringify({
+          display_text: label,
+          copy_code: target
+        })
+      })
+    } else if (type === 'single_select') {
+      if (!target) throw new Error('List title is required for single_select button.')
+      const rowsData = collectCcSelectRows(row)
+      if (!rowsData.length) throw new Error('single_select button needs at least 1 option with a title.')
+      const sectionTitle = row.querySelector('.cc-section-title')?.value.trim() || 'Options'
+      buttons.push({
+        index,
+        name: 'single_select',
+        buttonParamsJson: JSON.stringify({
+          title: target,
+          sections: [
+            {
+              title: sectionTitle,
+              rows: rowsData
+            }
+          ]
+        })
+      })
+    } else if (type === 'whatsapp') {
+      const digits = String(target).replace(/\D/g, '')
+      if (!digits) throw new Error('WhatsApp number is required.')
+      const waUrl = `https://wa.me/${digits}`
+      buttons.push({
+        index,
+        name: 'cta_url',
+        buttonParamsJson: JSON.stringify({
+          display_text: label,
+          url: waUrl,
+          merchant_url: waUrl
+        })
+      })
+    }
+  }
+
+  return buttons
+}
+
+// ── Drag-and-drop setup (called after DOM ready) ───────────────────────────
+function initDropZones() {
+  ;[['ccDropZone', 'ccMediaFile', 'ccUploadBar', 'ccUploadStatus', 'ccUploadProgress', 'ccUploadedUrl', 'ccDropText'],
+    ['ccEditDropZone', 'ccEditMediaFile', 'ccEditUploadBar', 'ccEditUploadStatus', 'ccEditUploadProgress', 'ccEditUploadedUrl', 'ccEditDropText']
+  ].forEach(([zoneId, inputId, barId, statusId, progressId, hiddenId, dropTextId]) => {
+    const zone = document.getElementById(zoneId)
+    if (!zone) return
+    zone.addEventListener('dragover', e => { e.preventDefault(); zone.style.borderColor = 'var(--green)' })
+    zone.addEventListener('dragleave', () => { zone.style.borderColor = 'var(--border)' })
+    zone.addEventListener('drop', e => {
+      e.preventDefault(); zone.style.borderColor = 'var(--border)'
+      const file = e.dataTransfer.files[0]
+      if (file) uploadMediaFile(file, barId, statusId, progressId, hiddenId, dropTextId)
+    })
+  })
+}
+document.addEventListener('DOMContentLoaded', initDropZones)
+document.addEventListener('DOMContentLoaded', () => {
+  applyTheme(getStoredTheme())
+  toggleMediaFields()
+})
+
+async function addCustomCommand() {
+  const trigger = document.getElementById('ccTrigger').value.trim()
+  const response = document.getElementById('ccResponse').value.trim()
+  const description = document.getElementById('ccDescription').value.trim()
+  const category = normalizeCcCategory(document.getElementById('ccCategory').value)
+  const mediaType = document.getElementById('ccMediaType').value
+  const normalizedMediaType = mediaType === 'text' ? '' : mediaType
+  const fileName = document.getElementById('ccFileName').value.trim()
+
+  if (!mediaType) { showToast('Please choose a content type first.', 'error'); return }
+  if (!trigger) { showToast('Trigger is required.', 'error'); return }
+
+  // Determine media URL: uploaded file takes precedence over URL input
+  const isUploadMode = document.getElementById('ccUploadInput').style.display !== 'none'
+  let mediaUrl = ''
+  if (normalizedMediaType) {
+    if (isUploadMode) {
+      mediaUrl = document.getElementById('ccUploadedUrl').value.trim()
+      if (!mediaUrl) {
+        // If file not yet uploaded but file is selected, upload now
+        const fileInput = document.getElementById('ccMediaFile')
+        if (fileInput.files[0]) {
+          const upRes = await uploadMediaFile(fileInput.files[0], 'ccUploadBar', 'ccUploadStatus', 'ccUploadProgress', 'ccUploadedUrl', 'ccDropText')
+          if (!upRes) { showToast('Upload failed. Please try again.', 'error'); return }
+          mediaUrl = upRes.url
+        } else {
+          showToast('Please select a file to upload, or switch to URL mode.', 'error'); return
+        }
+      }
+    } else {
+      mediaUrl = document.getElementById('ccMediaUrl').value.trim()
+    }
+  }
+
+  if (mediaType === 'text' && !response) { showToast('Text is required for text type.', 'error'); return }
+  if (!response && !mediaUrl) { showToast('Add a response text or attach media / URL.', 'error'); return }
+  if (normalizedMediaType === 'url' && !mediaUrl) { showToast('Please enter a URL.', 'error'); return }
+
+  let buttons = []
+  try {
+    buttons = collectCcButtons('ccButtonsContainer')
+  } catch (err) {
+    showToast(err.message || 'Invalid button configuration.', 'error')
+    return
+  }
+
+  try {
+    const payload = { trigger, response, description, category }
+    if (normalizedMediaType && mediaUrl) { payload.mediaUrl = mediaUrl; payload.mediaType = normalizedMediaType }
+    if (normalizedMediaType === 'url' && mediaUrl) { payload.mediaUrl = mediaUrl; payload.mediaType = 'url' }
+    if (fileName) payload.fileName = fileName
+    if (buttons.length) payload.buttons = buttons
+
+    const res = await fetch('/api/custom-commands', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    }).then(r => r.json())
+
+    if (res.success) {
+      showToast(res.message)
+      ;['ccTrigger','ccResponse','ccDescription','ccMediaUrl','ccFileName','ccUploadedUrl'].forEach(id => { document.getElementById(id).value = '' })
+      document.getElementById('ccCategory').value = 'General'
+      document.getElementById('ccMediaType').value = 'text'
+      document.getElementById('ccMediaFile').value = ''
+      document.getElementById('ccUploadProgress').style.display = 'none'
+      document.getElementById('ccDropText').style.display = ''
+      resetCcButtonRows('ccButtonsContainer')
+      toggleMediaFields()
+      loadCustomCommands()
+    } else {
+      showToast(res.error || 'Failed to add command.', 'error')
+    }
+  } catch(e) { showToast('Network error', 'error') }
+}
+
+async function deleteCustomCommand(trigger) {
+  if (!confirm(`Delete command "${trigger}"?`)) return
+  try {
+    const res = await fetch('/api/custom-commands/' + encodeURIComponent(trigger), { method: 'DELETE' }).then(r => r.json())
+    if (res.success) { showToast(res.message); loadCustomCommands() }
+    else showToast(res.error || 'Failed to delete.', 'error')
+  } catch(e) { showToast('Network error', 'error') }
+}
+
+function openCcEditModal(trigger, response, description, category, mediaUrl, mediaType, fileName, buttons) {
+  document.getElementById('ccEditTrigger').value = trigger
+  document.getElementById('ccEditTriggerLabel').textContent = trigger
+  document.getElementById('ccEditResponse').value = (response || '').replace(/\\n/g, '\n')
+  document.getElementById('ccEditDescription').value = description || ''
+  let parsedButtons = []
+  try {
+    parsedButtons = buttons ? JSON.parse(buttons) : []
+  } catch (e) {
+    parsedButtons = []
+  }
+  resetCcButtonRows('ccEditButtonsContainer', parsedButtons)
+  const selectedCategory = normalizeCcCategory(category)
+  const categorySelect = document.getElementById('ccEditCategory')
+  if (![...categorySelect.options].some((opt) => opt.value === selectedCategory)) {
+    const customOpt = document.createElement('option')
+    customOpt.value = selectedCategory
+    customOpt.textContent = `${selectedCategory} (Current)`
+    categorySelect.appendChild(customOpt)
+  }
+  categorySelect.value = selectedCategory
+  document.getElementById('ccEditMediaType').value = mediaType || ''
+  document.getElementById('ccEditFileName').value = fileName || ''
+  // If existing media is a local upload, show it in the upload slot; else put it in URL
+  const isLocalUpload = (mediaUrl || '').startsWith('/uploads/')
+  document.getElementById('ccEditMediaUrl').value = isLocalUpload ? '' : (mediaUrl || '')
+  document.getElementById('ccEditUploadedUrl').value = isLocalUpload ? (mediaUrl || '') : ''
+  if (isLocalUpload && mediaUrl) {
+    document.getElementById('ccEditDropText').style.display = 'none'
+    document.getElementById('ccEditUploadProgress').style.display = ''
+    document.getElementById('ccEditUploadStatus').textContent = `✅ ${decodeURIComponent(mediaUrl.split('/').pop())} (uploaded)`
+    document.getElementById('ccEditUploadBar').style.width = '100%'
+  } else {
+    document.getElementById('ccEditDropText').style.display = ''
+    document.getElementById('ccEditUploadProgress').style.display = 'none'
+  }
+  toggleEditMediaFields()
+  if (mediaType) setCcEditSource(isLocalUpload ? 'upload' : 'url')
+  document.getElementById('ccEditModal').style.display = 'flex'
+}
+
+function closeCcEditModal() {
+  document.getElementById('ccEditModal').style.display = 'none'
+}
+
+async function saveEditCustomCommand() {
+  const trigger = document.getElementById('ccEditTrigger').value
+  const response = document.getElementById('ccEditResponse').value.trim()
+  const description = document.getElementById('ccEditDescription').value.trim()
+  const category = normalizeCcCategory(document.getElementById('ccEditCategory').value)
+  const mediaType = document.getElementById('ccEditMediaType').value
+  const fileName = document.getElementById('ccEditFileName').value.trim()
+
+  // Resolve media URL: uploaded or URL input
+  const isUploadMode = document.getElementById('ccEditUploadInput').style.display !== 'none'
+  let mediaUrl = ''
+  if (mediaType) {
+    if (isUploadMode) {
+      mediaUrl = document.getElementById('ccEditUploadedUrl').value.trim()
+      if (!mediaUrl) {
+        const fileInput = document.getElementById('ccEditMediaFile')
+        if (fileInput.files[0]) {
+          const upRes = await uploadMediaFile(fileInput.files[0], 'ccEditUploadBar', 'ccEditUploadStatus', 'ccEditUploadProgress', 'ccEditUploadedUrl', 'ccEditDropText')
+          if (!upRes) { showToast('Upload failed. Please try again.', 'error'); return }
+          mediaUrl = upRes.url
+        } else {
+          showToast('Please select a file to upload, or switch to URL mode.', 'error'); return
+        }
+      }
+    } else {
+      mediaUrl = document.getElementById('ccEditMediaUrl').value.trim()
+    }
+  }
+
+  if (!response && !mediaUrl) { showToast('Add a response text or attach media.', 'error'); return }
+
+  let buttons = []
+  try {
+    buttons = collectCcButtons('ccEditButtonsContainer')
+  } catch (err) {
+    showToast(err.message || 'Invalid button configuration.', 'error')
+    return
+  }
+
+  try {
+    const payload = { response, description, category }
+    if (mediaType && mediaUrl) { payload.mediaUrl = mediaUrl; payload.mediaType = mediaType }
+    if (fileName) payload.fileName = fileName
+    if (buttons.length) payload.buttons = buttons
+
+    const res = await fetch('/api/custom-commands/' + encodeURIComponent(trigger), {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    }).then(r => r.json())
+
+    if (res.success) {
+      showToast(res.message)
+      closeCcEditModal()
+      loadCustomCommands()
+    } else {
+      showToast(res.error || 'Failed to update.', 'error')
+    }
+  } catch(e) { showToast('Network error', 'error') }
+}
+
+// ── Init ──────────────────────────────────────────────────────────────────────
+loadStatus()
+loadSettings()
+loadLogs()
+loadSession()
+setInterval(loadStatus, 5000)
+</script>
+</body>
+</html>

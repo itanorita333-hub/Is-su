@@ -1,0 +1,2 @@
+- [YouTube downloader engine](yt-downloader.md) — `.ytmp3`/`.ytmp4` use yt-dlp (system pkg) as primary, third-party APIs as fallback; yt-dlp works from this server's IP.
+- [Dashboard/bot cross-process status bug](dashboard-cross-process-status.md) — dashboard and bot run as separate OS processes; `global.botSocket` never shared, use files instead.
